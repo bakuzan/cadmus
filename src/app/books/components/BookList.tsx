@@ -36,7 +36,7 @@ export default function BookList({ data }: { data: BookViewModel[] }) {
             <Link href={`/books/${x.id}`}>{x.title}</Link>
             <div className={styles.metadata}>
               <div>{x.author}</div>
-              <div>Edition Published: {x.published}</div>
+              <div>(Edition Published: {x.published})</div>
             </div>
           </li>
         ))}

@@ -12,7 +12,6 @@ export interface Book {
 
 export interface BookInLibrary extends Book {
   LibraryId: number | null;
-  Physical: number | null; // BIT field (1 or 0)
 }
 
 // View model
@@ -29,6 +28,4 @@ export interface BookViewModel {
 
 export interface BookInLibraryViewModel extends BookViewModel {
   inLibrary: boolean;
-  libraryId: number;
-  isPhysical: boolean;
 }

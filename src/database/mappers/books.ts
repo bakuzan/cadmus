@@ -5,10 +5,6 @@ import {
   BookViewModel
 } from '@/types/Books';
 
-function bitToBool(bitField: number | null | undefined) {
-  return bitField === 1;
-}
-
 export function toBookViewModel(book: Book): BookViewModel {
   return {
     id: book.Id,
@@ -30,8 +26,6 @@ export function toBookInLibraryViewModel(
 
   return {
     ...item,
-    inLibrary,
-    libraryId: book.LibraryId || 0,
-    isPhysical: inLibrary && bitToBool(book.Physical)
+    inLibrary
   };
 }

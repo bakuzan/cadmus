@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
+import { revalidatePath } from 'next/cache';
 
-import { getBookById } from '@/database/books';
-
+import { getBookById, toggleBookInLibrary } from '@/database/books';
 import getPageTitle from '@/utils/getPageTitle';
+
+import InLibraryIcon from '@/app/books/components/InLibraryIcon';
 
 import styles from './page.module.css';
 
@@ -22,6 +24,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BookById({ params }: { params: { id: string } }) {
   const book = await getBookById(params.id);
 
+  async function onSubmit(formData: FormData) {
+    'use server';
+
+    const bookId = formData.get('bookId') as string;
+    const response = await toggleBookInLibrary(bookId);
+    if (response) {
+      revalidatePath(`/books/${bookId}`);
+    }
+  }
+
   return (
     <>
       <section className={styles.bookInfo}>
@@ -29,6 +41,21 @@ export default async function BookById({ params }: { params: { id: string } }) {
           <h1>{book.title}</h1>
           <p className={styles.muted}>{book.author}</p>
         </header>
+        <form
+          className={styles.form}
+          id="library"
+          name="library"
+          action={onSubmit}
+        >
+          <input type="hidden" name="bookId" value={book.id} />
+
+          <button
+            type="submit"
+            className={book.inLibrary ? 'danger' : 'primary'}
+          >
+            {book.inLibrary ? 'Remove from Library' : 'Add to Library'}
+          </button>
+        </form>
         <table className={styles.bookTable}>
           <thead>
             <tr>
@@ -67,11 +94,16 @@ export default async function BookById({ params }: { params: { id: string } }) {
               </th>
               <td>{book.published}</td>
             </tr>
+            <tr className={styles.noHover}>
+              <th>
+                <strong>In Library?</strong>
+              </th>
+              <td>
+                <InLibraryIcon isIn={book.inLibrary} />
+              </td>
+            </tr>
           </tbody>
         </table>
-        <form id="library" name="library">
-          TODO add physical tickbox
-        </form>
       </section>
       <section className={styles.historyInfo}>
         <header>
@@ -79,7 +111,7 @@ export default async function BookById({ params }: { params: { id: string } }) {
         </header>
         <p>
           TODO Here will be a list of all the read instances, topped with an add
-          form
+          form - Extract to separate component!
         </p>
       </section>
     </>

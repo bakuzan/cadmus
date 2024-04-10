@@ -6,11 +6,15 @@
   color: var(--muted-colour);
 }
 
+.form {
+  float: right;
+}
+
 .bookTable {
   margin: 25px 0;
 }
 
-.bookTable tr:hover {
+.bookTable tr:not(.noHover):hover {
   background-color: var(--primary-background-colour);
   color: var(--primary-constrast-colour);
 }

@@ -9,12 +9,23 @@ import { BookViewModel } from '@/types/Books';
 
 import styles from './BookList.module.css';
 
+function filterBooks(searchString: string) {
+  const terms = searchString.toLowerCase().trim().split(' ');
+
+  return function (value: BookViewModel) {
+    return terms.some(
+      (t) =>
+        value.title.toLowerCase().includes(t) ||
+        value.author.toLowerCase().includes(t) ||
+        value.isbn13.toLowerCase().includes(t) ||
+        value.isbn10.toLowerCase().includes(t)
+    );
+  };
+}
+
 export default function BookList({ data }: { data: BookViewModel[] }) {
   const [searchString, setSearchString] = useState('');
-  const searchStringLower = searchString.toLowerCase();
-  const books = data.filter(
-    (x) => x.title.toLowerCase().includes(searchStringLower) // TODO improve this filter
-  );
+  const books = data.filter(filterBooks(searchString));
 
   return (
     <>
@@ -22,8 +33,11 @@ export default function BookList({ data }: { data: BookViewModel[] }) {
       <List>
         {books.map((x) => (
           <li key={x.id} className={styles.item}>
-            <Link href={`/book/${x.id}`}>{x.title}</Link>
-            <div className={styles.muted}>Published: {x.published}</div>
+            <Link href={`/books/${x.id}`}>{x.title}</Link>
+            <div className={styles.metadata}>
+              <div>{x.author}</div>
+              <div>Edition Published: {x.published}</div>
+            </div>
           </li>
         ))}
       </List>

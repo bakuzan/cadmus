@@ -1,7 +1,12 @@
 .item {
 }
 
-.muted {
+.metadata {
   font-size: 0.8em;
   color: var(--muted-colour);
+  display: flex;
+}
+
+.metadata > * {
+  margin-right: 25px;
 }

@@ -1,4 +1,13 @@
-import { Book, BookViewModel } from '@/types/Books';
+import {
+  Book,
+  BookInLibrary,
+  BookInLibraryViewModel,
+  BookViewModel
+} from '@/types/Books';
+
+function bitToBool(bitField: number | null | undefined) {
+  return bitField === 1;
+}
 
 export function toBookViewModel(book: Book): BookViewModel {
   return {
@@ -10,5 +19,19 @@ export function toBookViewModel(book: Book): BookViewModel {
     binding: book.Binding,
     publisher: book.Publisher,
     published: book.Published
+  };
+}
+
+export function toBookInLibraryViewModel(
+  book: BookInLibrary
+): BookInLibraryViewModel {
+  const item = toBookViewModel(book);
+  const inLibrary = book.LibraryId !== null;
+
+  return {
+    ...item,
+    inLibrary,
+    libraryId: book.LibraryId || 0,
+    isPhysical: inLibrary && bitToBool(book.Physical)
   };
 }

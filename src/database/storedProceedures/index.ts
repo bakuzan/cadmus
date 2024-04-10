@@ -3,7 +3,7 @@ import fs from 'fs';
 
 type StoredProceedures =
   // Data queries
-  'GetBooks';
+  'GetBooks' | 'GetBookById';
 
 const proceedures = {} as Record<StoredProceedures, string>;
 const targetFolder = path.join(process.cwd(), 'src/database/storedProceedures');

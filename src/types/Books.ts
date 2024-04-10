@@ -10,6 +10,11 @@ export interface Book {
   Published: string;
 }
 
+export interface BookInLibrary extends Book {
+  LibraryId: number | null;
+  Physical: number | null; // BIT field (1 or 0)
+}
+
 // View model
 export interface BookViewModel {
   id: number;
@@ -20,4 +25,10 @@ export interface BookViewModel {
   binding: string;
   publisher: string;
   published: string;
+}
+
+export interface BookInLibraryViewModel extends BookViewModel {
+  inLibrary: boolean;
+  libraryId: number;
+  isPhysical: boolean;
 }

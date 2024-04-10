@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS "Library" (
+	"Id"	        	INTEGER NOT NULL UNIQUE,
+	"BookId"			INTEGER NOT NULL,
+	"Physical"			BIT NOT NULL,
+	PRIMARY KEY("Id" AUTOINCREMENT),
+    FOREIGN KEY("BookId") REFERENCES "Books"("Id")
+)

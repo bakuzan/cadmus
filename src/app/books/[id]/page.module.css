@@ -1,0 +1,24 @@
+.bookInfo strong {
+  margin-right: 25px;
+}
+
+.muted {
+  color: var(--muted-colour);
+}
+
+.bookTable {
+  margin: 25px 0;
+}
+
+.bookTable tr:hover {
+  background-color: var(--primary-background-colour);
+  color: var(--primary-constrast-colour);
+}
+
+.bookTable th {
+  text-align: right;
+}
+
+.historyInfo {
+  margin: 25px 0;
+}

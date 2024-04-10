@@ -2,10 +2,26 @@
   --font-family: 'Lucida Console', 'Courier New', monospace;
   --font-size: 16px;
 
+  --navbar-height: 50px;
+
   --cadmus-background-colour: #f2f4f6; /* Anti-flash 'white' */
   --cadmus-font-colour: #1f1f1f;
 
   --cadmus-link-colour: #b05923; /* Titian */
+
+  --primary-background-colour: #b05923;
+  --primary-constrast-colour: #fff;
+
+  --disabled-background: #757575;
+  --disabled-colour: #fff;
+
+  --danger-colour: #b22222;
+  --danger-constrast-colour: #000;
+  --warning-colour: #ffa500;
+  --muted-colour: #757575;
+
+  font-size: var(--font-size);
+  font-family: var(--font-family);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,10 +44,9 @@ body {
 }
 
 body {
-  font-family: var(--font-family);
-  font-size: var(--font-size);
   background-color: var(--cadmus-background-colour);
   color: var(--cadmus-font-colour);
+  min-height: 100vh;
 }
 
 a {
@@ -42,11 +57,17 @@ a {
 a:active,
 a:focus,
 a:hover {
-  text-decoration: dotted;
+  text-decoration: underline;
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+.main {
+  padding: 1rem;
+  padding-top: calc(1rem + var(--navbar-height));
+  min-height: 100vh;
 }

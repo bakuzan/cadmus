@@ -10,11 +10,13 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "better-sqlite3": "^9.4.5",
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

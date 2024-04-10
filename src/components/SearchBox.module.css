@@ -1,0 +1,16 @@
+.searchBox {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+
+.label {
+  color: var(--muted-colour);
+  font-size: 0.8rem;
+}
+
+.input {
+  background: inherit;
+  border: none;
+  border-bottom: 1px solid var(--primary-background-colour);
+}

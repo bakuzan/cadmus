@@ -8,6 +8,7 @@ import getPageTitle from '@/utils/getPageTitle';
 import InLibraryIcon from '@/components/InLibraryIcon';
 
 import styles from './page.module.css';
+import AddHistory from '@/components/AddHistory';
 
 type Props = {
   params: { id: string };
@@ -119,10 +120,8 @@ export default async function BookById({ params }: { params: { id: string } }) {
         <header>
           <h2>History</h2>
         </header>
-        <p>
-          TODO Here will be a list of all the read instances, topped with an add
-          form - Extract to separate component!
-        </p>
+        <AddHistory bookId={book.id} />
+        <p>TODO Here will be a list of all the read instances</p>
       </section>
     </>
   );

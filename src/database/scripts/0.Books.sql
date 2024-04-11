@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS "Books" (
 	"Published"			TEXT NULL,
 	PRIMARY KEY("Id" AUTOINCREMENT),
 	UNIQUE("Title","Author","Publisher","Published")
-)
+);

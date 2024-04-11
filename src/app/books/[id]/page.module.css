@@ -19,6 +19,11 @@
   margin-right: 25px;
 }
 
+.bookTable td,
+.bookTable th {
+  padding: 0.25rem;
+}
+
 .bookTable tr:not(.noHover):hover {
   background-color: var(--primary-background-colour);
   color: var(--primary-constrast-colour);

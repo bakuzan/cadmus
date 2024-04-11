@@ -10,8 +10,13 @@
   float: right;
 }
 
-.bookTable {
+.wrapper {
+  display: flex;
   margin: 25px 0;
+}
+
+.image {
+  margin-right: 25px;
 }
 
 .bookTable tr:not(.noHover):hover {

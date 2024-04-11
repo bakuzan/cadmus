@@ -16,7 +16,7 @@ input.close()
 for isbn in isbns:
     print()
     print(f"Starting processing for {isbn}...")
-    time.sleep(0.2)
+    time.sleep(1)
 
     # Request and cache file if not in cache
     file_path = f"./cache/{isbn}.html"

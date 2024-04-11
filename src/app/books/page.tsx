@@ -2,7 +2,7 @@ import { getBooks } from '@/database/books';
 
 import getPageTitle from '@/utils/getPageTitle';
 
-import BookList from '@/app/books/components/BookList';
+import BookList from '@/components/BookList';
 
 export const metadata = {
   title: getPageTitle('Books')

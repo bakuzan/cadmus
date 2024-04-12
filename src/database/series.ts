@@ -1,6 +1,12 @@
 import db from './db';
-import { toSeriesViewModel } from './mappers/series';
 
+import {
+  toSeriesViewModel,
+  toSeriesWithBooksViewModel
+} from './mappers/series';
+import getStoredProceedure from './storedProceedures';
+
+import { Book } from '@/types/Books';
 import { Series, SeriesUpdateRequest } from '@/types/Series';
 
 function checkIfSeriesWithNameAlreadyExists(name: string) {
@@ -28,6 +34,17 @@ export async function getSeries() {
 
   const items = db.prepare(query).all() as Series[];
   return items.map(toSeriesViewModel);
+}
+
+export async function getSeriesById(seriesId: string) {
+  const item = db
+    .prepare(`SELECT * FROM Series WHERE Id = ?`)
+    .get(seriesId) as Series;
+
+  const query = getStoredProceedure('GetBooksBySeriesId');
+  const books = db.prepare(query).all(seriesId) as Book[];
+
+  return toSeriesWithBooksViewModel(item, books);
 }
 
 /* DATABASE WRITES */

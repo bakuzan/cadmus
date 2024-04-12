@@ -1,3 +1,5 @@
+import { BookSimpleViewModel } from './Books';
+
 // Database model
 export interface Series {
   Id: number;
@@ -8,6 +10,10 @@ export interface Series {
 export interface SeriesViewModel {
   id: number;
   name: string;
+}
+
+export interface SeriesWithBooksViewModel extends SeriesViewModel {
+  books: BookSimpleViewModel[];
 }
 
 // Requests

@@ -31,3 +31,8 @@ export interface BookInLibraryViewModel extends BookViewModel {
   inLibrary: boolean;
   seriesId: number | null;
 }
+
+export interface BookSimpleViewModel {
+  id: number;
+  title: string;
+}

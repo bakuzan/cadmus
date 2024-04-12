@@ -1,5 +1,6 @@
 'use client';
 import { useId } from 'react';
+import Link from 'next/link';
 
 import onUpdateSeries from '@/actions/onUpdateSeries';
 import useToast from '@/hooks/useToast';
@@ -31,13 +32,13 @@ export default function UpdateSeries(props: UpdateSeriesProps) {
       }
     >
       {showLink && (
-        <a
+        <Link
           className={styles.link}
           href={`/series/${props.data.id}`}
           title="Go to series page"
         >
           🔗
-        </a>
+        </Link>
       )}
 
       <input type="hidden" name="id" value={props.data.id} />

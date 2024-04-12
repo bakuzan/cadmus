@@ -6,15 +6,18 @@ import useToast from '@/hooks/useToast';
 
 import { SeriesViewModel } from '@/types/Series';
 
-import styles from './AddHistory.module.css';
+import styles from './AddSeries.module.css';
 
 interface UpdateSeriesProps {
   data: SeriesViewModel;
+  showLink?: boolean;
 }
 
 export default function UpdateSeries(props: UpdateSeriesProps) {
   const componentId = useId();
   const toast = useToast();
+
+  const showLink = props.showLink ?? false;
 
   return (
     <form
@@ -27,6 +30,16 @@ export default function UpdateSeries(props: UpdateSeriesProps) {
           .catch((error) => toast('error', error.message))
       }
     >
+      {showLink && (
+        <a
+          className={styles.link}
+          href={`/series/${props.data.id}`}
+          title="Go to series page"
+        >
+          🔗
+        </a>
+      )}
+
       <input type="hidden" name="id" value={props.data.id} />
 
       <label className={styles.label}>

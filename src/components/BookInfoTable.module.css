@@ -3,11 +3,33 @@
   padding: 0.25rem;
 }
 
-.bookTable tr:not(.noHover):hover {
+.bookTable tbody tr:not(.noHover):hover {
   background-color: var(--primary-background-colour);
   color: var(--primary-constrast-colour);
 }
 
 .bookTable th {
   text-align: right;
+}
+
+/* BooksSeries form */
+.form {
+  display: flex;
+  align-items: center;
+}
+.form > *:not(:last-child) {
+  margin-right: 25px;
+}
+
+.label {
+  color: var(--muted-colour);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.select {
+  background: inherit;
+  border: none;
+  border-bottom: 1px solid var(--primary-background-colour);
 }

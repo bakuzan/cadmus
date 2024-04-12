@@ -21,7 +21,7 @@ export default async function Series() {
       <List>
         {series.map((s) => (
           <li key={s.id}>
-            <UpdateSeries data={s} />
+            <UpdateSeries data={s} showLink />
           </li>
         ))}
       </List>

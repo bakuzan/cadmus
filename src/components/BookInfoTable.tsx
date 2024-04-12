@@ -1,14 +1,21 @@
+'use client';
 import { BookInLibraryViewModel } from '@/types/Books';
 
+import onUpdateBookSeries from '@/actions/onUpdateBookSeries';
 import InLibraryIcon from '@/components/InLibraryIcon';
+import useToast from '@/hooks/useToast';
+import { SeriesViewModel } from '@/types/Series';
 
 import styles from './BookInfoTable.module.css';
 
 interface BookInfoTableProps {
   book: BookInLibraryViewModel;
+  series: SeriesViewModel[];
 }
 
-export default function BookInfoTable({ book }: BookInfoTableProps) {
+export default function BookInfoTable({ book, series }: BookInfoTableProps) {
+  const toast = useToast();
+
   return (
     <table className={styles.bookTable}>
       <thead>
@@ -47,6 +54,45 @@ export default function BookInfoTable({ book }: BookInfoTableProps) {
             <strong>Published</strong>
           </th>
           <td>{book.published}</td>
+        </tr>
+        <tr className={styles.noHover}>
+          <th>
+            <strong>Series</strong>
+          </th>
+          <td>
+            <form
+              className={styles.form}
+              id="bookSeries"
+              name="bookSeries"
+              action={(data) =>
+                onUpdateBookSeries(data)
+                  .then(() => toast('info', 'Series updated.'))
+                  .catch((error) => toast('error', error.message))
+              }
+            >
+              <input type="hidden" name="bookId" value={book.id} />
+
+              <label className={styles.label}>
+                <select
+                  className={styles.select}
+                  id="seriesId"
+                  name="seriesId"
+                  defaultValue={book.seriesId ?? undefined}
+                >
+                  <option value="">None</option>
+                  {series.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <button type="submit" className="primary">
+                Save
+              </button>
+            </form>
+          </td>
         </tr>
         <tr className={styles.noHover}>
           <th>

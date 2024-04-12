@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { getBookById, toggleBookInLibrary } from '@/database/books';
 import { getReadHistory } from '@/database/history';
+import { getSeries } from '@/database/series';
 import getPageTitle from '@/utils/getPageTitle';
 
 import List from '@/components/List';
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BookById({ params }: { params: { id: string } }) {
   const book = await getBookById(params.id);
   const history = await getReadHistory(params.id);
+  const series = await getSeries();
 
   async function onSubmit(formData: FormData) {
     'use server';
@@ -71,7 +73,7 @@ export default async function BookById({ params }: { params: { id: string } }) {
             width={160}
             height={245}
           />
-          <BookInfoTable book={book} />
+          <BookInfoTable book={book} series={series} />
         </div>
       </section>
       <section className={styles.historyInfo}>

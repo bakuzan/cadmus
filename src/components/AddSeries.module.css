@@ -1,0 +1,27 @@
+.form {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--primary-background-colour);
+  margin: 1rem 0;
+}
+.formShrink {
+  max-width: 300px;
+}
+
+.form > *:not(:last-child) {
+  margin-right: 25px;
+}
+
+.label {
+  color: var(--muted-colour);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  background: inherit;
+  border: none;
+  border-bottom: 1px solid var(--primary-background-colour);
+}

@@ -1,6 +1,7 @@
-import { revalidatePath } from 'next/cache';
+'use client';
+import { useRef } from 'react';
 
-import { addReadHistory } from '@/database/history';
+import onAddHistory from '@/actions/onAddHistory';
 import concat from '@/utils/concat';
 import { getTodayYYYYMMDD } from '@/utils/date';
 
@@ -11,26 +12,16 @@ interface AddHistoryProps {
 }
 
 export default function AddHistory(props: AddHistoryProps) {
+  const formRef = useRef<HTMLFormElement | null>(null);
   const today = getTodayYYYYMMDD();
-
-  async function onSubmit(formData: FormData) {
-    'use server';
-
-    const bookId = formData.get('bookId') as string;
-    const startDate = formData.get('startDate') as string;
-
-    const response = await addReadHistory(bookId, startDate);
-    if (response) {
-      revalidatePath(`/books/${bookId}`);
-    }
-  }
 
   return (
     <form
+      ref={formRef}
       className={concat(styles.form, styles.formShrink)}
       id="addHistory"
       name="addHistory"
-      action={onSubmit}
+      action={(data) => onAddHistory(data).then(() => formRef.current?.reset())}
     >
       <input type="hidden" name="bookId" value={props.bookId} />
 

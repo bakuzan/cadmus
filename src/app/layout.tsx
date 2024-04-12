@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import NavBar from '@/components/NavBar';
+import Toaster from '@/components/Toaster';
 
 import getPageTitle from '@/utils/getPageTitle';
 
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NavBar />
-        <main className="main">{children}</main>
+        <Toaster>
+          <main className="main">{children}</main>
+        </Toaster>
       </body>
     </html>
   );

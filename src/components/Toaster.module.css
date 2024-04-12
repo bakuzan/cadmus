@@ -1,0 +1,30 @@
+.toaster {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  padding-left: 2.75rem;
+  margin: 0.25rem;
+  box-shadow: 0px 0px 5px 0px #000;
+}
+
+.icon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 2rem;
+}
+
+.info {
+  background-color: var(--success-colour);
+  color: var(--success-constrast-colour);
+}
+
+.error {
+  background-color: var(--danger-colour);
+  color: var(--danger-constrast-colour);
+}

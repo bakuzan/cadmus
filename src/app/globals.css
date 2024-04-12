@@ -15,6 +15,8 @@
   --disabled-background: #757575;
   --disabled-colour: #fff;
 
+  --success-colour: #228b22;
+  --success-constrast-colour: #fff;
   --danger-colour: #b22222;
   --danger-constrast-colour: #fff;
   --warning-colour: #ffa500;

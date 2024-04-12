@@ -3,12 +3,15 @@ import { revalidatePath } from 'next/cache';
 import Image from 'next/image';
 
 import { getBookById, toggleBookInLibrary } from '@/database/books';
+import { getReadHistory } from '@/database/history';
 import getPageTitle from '@/utils/getPageTitle';
 
-import InLibraryIcon from '@/components/InLibraryIcon';
+import List from '@/components/List';
+import BookInfoTable from '@/components/BookInfoTable';
+import AddHistory from '@/components/AddHistory';
+import UpdateHistory from '@/components/UpdateHistory';
 
 import styles from './page.module.css';
-import AddHistory from '@/components/AddHistory';
 
 type Props = {
   params: { id: string };
@@ -25,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BookById({ params }: { params: { id: string } }) {
   const book = await getBookById(params.id);
+  const history = await getReadHistory(params.id);
 
   async function onSubmit(formData: FormData) {
     'use server';
@@ -63,57 +67,11 @@ export default async function BookById({ params }: { params: { id: string } }) {
             className={styles.image}
             src={`/api/image/${book.isbn13}`}
             alt={`Cover for ${book.title}, published by ${book.publisher}`}
+            priority={false}
             width={160}
             height={245}
           />
-          <table className={styles.bookTable}>
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>
-                  <strong>ISBN-13</strong>
-                </th>
-                <td>{book.isbn13}</td>
-              </tr>
-              <tr>
-                <th>
-                  <strong>ISBN-10</strong>
-                </th>
-                <td>{book.isbn10}</td>
-              </tr>
-              <tr>
-                <th>
-                  <strong>Binding</strong>
-                </th>
-                <td>{book.binding}</td>
-              </tr>
-              <tr>
-                <th>
-                  <strong>Publisher</strong>
-                </th>
-                <td>{book.publisher}</td>
-              </tr>
-              <tr>
-                <th>
-                  <strong>Published</strong>
-                </th>
-                <td>{book.published}</td>
-              </tr>
-              <tr className={styles.noHover}>
-                <th>
-                  <strong>In Library?</strong>
-                </th>
-                <td>
-                  <InLibraryIcon isIn={book.inLibrary} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <BookInfoTable book={book} />
         </div>
       </section>
       <section className={styles.historyInfo}>
@@ -121,7 +79,14 @@ export default async function BookById({ params }: { params: { id: string } }) {
           <h2>History</h2>
         </header>
         <AddHistory bookId={book.id} />
-        <p>TODO Here will be a list of all the read instances</p>
+        <hr />
+        <List>
+          {history.map((h) => (
+            <li key={h.id}>
+              <UpdateHistory data={h} />
+            </li>
+          ))}
+        </List>
       </section>
     </>
   );

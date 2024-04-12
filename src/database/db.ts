@@ -24,6 +24,7 @@ for (const item of scripts) {
       console.error(
         `%c Database script error :: `,
         'color:red;font-size:20px;',
+        item.name,
         e
       );
     }

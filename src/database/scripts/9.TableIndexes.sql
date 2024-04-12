@@ -10,5 +10,5 @@ CREATE INDEX IF NOT EXISTS "History_BookId_Index" ON "History" ("BookId");
 CREATE UNIQUE INDEX IF NOT EXISTS "Series_Unique_Columns" ON "Series" ("Name");
 
 CREATE UNIQUE INDEX IF NOT EXISTS "BooksSeries_Unique_Columns" ON "BooksSeries" ("BookId","SeriesId");
-CREATE INDEX IF NOT EXISTS "BooksSeries_BookId_Index" ON "History" ("BookId");
-CREATE INDEX IF NOT EXISTS "BooksSeries_SeriesId_Index" ON "History" ("SeriesId");
+CREATE INDEX IF NOT EXISTS "BooksSeries_BookId_Index" ON "BooksSeries" ("BookId");
+CREATE INDEX IF NOT EXISTS "BooksSeries_SeriesId_Index" ON "BooksSeries" ("SeriesId");

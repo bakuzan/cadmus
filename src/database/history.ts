@@ -1,10 +1,25 @@
 import db from './db';
-import { toHistoryViewModel } from './mappers/history';
+import getStoredProceedure from './storedProceedures';
 
-import { History, HistoryUpdateRequest } from '@/types/History';
+import {
+  toHistoryViewModel,
+  toHistoryDetailedViewModel
+} from './mappers/history';
+
+import {
+  History,
+  HistoryUpdateRequest,
+  HistoryDetailed
+} from '@/types/History';
 
 /* DATEBASE READS */
-export async function getReadHistory(bookId: string) {
+export async function getFullHistory() {
+  const query = getStoredProceedure('GetFullHistory');
+  const items = db.prepare(query).all() as HistoryDetailed[];
+  return items.map(toHistoryDetailedViewModel);
+}
+
+export async function getHistoryByBookId(bookId: string) {
   const query = `
     SELECT * 
       FROM History 

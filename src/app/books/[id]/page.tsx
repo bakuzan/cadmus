@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import Image from 'next/image';
 
 import { getBookById, toggleBookInLibrary } from '@/database/books';
-import { getReadHistory } from '@/database/history';
+import { getHistoryByBookId } from '@/database/history';
 import { getSeries } from '@/database/series';
 import getPageTitle from '@/utils/getPageTitle';
 
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BookById({ params }: { params: { id: string } }) {
   const book = await getBookById(params.id);
-  const history = await getReadHistory(params.id);
+  const history = await getHistoryByBookId(params.id);
   const series = await getSeries();
 
   async function onSubmit(formData: FormData) {

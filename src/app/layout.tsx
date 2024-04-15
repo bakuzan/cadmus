@@ -6,6 +6,7 @@ import Toaster from '@/components/Toaster';
 import getPageTitle from '@/utils/getPageTitle';
 
 import './globals.css';
+import './table.css';
 
 export const metadata: Metadata = {
   title: getPageTitle(),

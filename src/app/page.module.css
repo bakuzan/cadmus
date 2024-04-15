@@ -1,12 +1,54 @@
 .table {
-  /* TODO Get the responsive table styles I usually use! */
+  border-collapse: collapse;
+  height: fit-content; /* Required to allow div's in td to height: 100% */
+  margin: 2rem auto;
 }
 
-.image {
+.table td {
+  padding: 0.25rem;
+}
+
+.table tbody tr {
+  border-top: 1px dotted;
+  border-bottom: 1px dotted;
+  border-color: var(--muted-colour);
+}
+
+.dataColumn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .metadata {
+  font-size: 0.8em;
+  color: var(--muted-colour);
+  display: flex;
+}
+.metadata > * {
+  margin-right: 25px;
 }
 
 .dates {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Responsive tweaks */
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  .imageCell {
+    text-align: center;
+  }
+
+  .dataColumn {
+    max-width: 60%;
+    margin-left: calc(35% + 20px);
+  }
+
+  .dates {
+    justify-content: left;
+    margin-left: calc(35% + 20px);
+  }
 }

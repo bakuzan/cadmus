@@ -23,29 +23,31 @@ export default async function Home() {
         <tbody>
           {history.map((x) => (
             <tr key={x.historyId}>
-              <td>
+              <td className={styles.imageCell}>
                 {!x.endDate && (
                   <Image
                     className={styles.image}
                     src={`/api/image/${x.isbn13}`}
                     alt={`Cover for ${x.title}`}
                     priority={false}
-                    width={160}
-                    height={245}
+                    width={80}
+                    height={123}
                   />
                 )}
               </td>
-              <td>
-                <Link href={`/books/${x.bookId}`}>{x.title}</Link>
-                <div className={styles.metadata}>
-                  <div className="muted">{x.author}</div>
-                  <div className="muted">{x.seriesName}</div>
+              <td data-column-title="Book">
+                <div className={styles.dataColumn}>
+                  <Link href={`/books/${x.bookId}`}>{x.title}</Link>
+                  <div className={styles.metadata}>
+                    <div className="muted">{x.author}</div>
+                    <div className="muted">({x.seriesName})</div>
+                  </div>
                 </div>
               </td>
-              <td>
+              <td data-column-title="Dates">
                 <div className={styles.dates}>
                   <div>{formatDateForDisplay(x.startDate)}</div>
-                  <div> - </div>
+                  <div>&nbsp;–&nbsp;</div>
                   <div>
                     {x.endDate ? formatDateForDisplay(x.endDate) : 'Present'}
                   </div>

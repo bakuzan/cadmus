@@ -22,6 +22,9 @@
   --warning-colour: #ffa500;
   --muted-colour: #757575;
 
+  --table-border-colour: var(--muted-colour);
+  --table-cell-border-colour: transparent;
+
   font-size: var(--font-size);
   font-family: var(--font-family);
 }

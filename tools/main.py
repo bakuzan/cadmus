@@ -1,56 +1,50 @@
-import time, os, requests
-from bs4 import BeautifulSoup
+import os, csv
 
 import config
-from utils import extract_text,custom_pretty_print,get_image_and_save
-from db import add_book_if_not_exists
+import scraper
+import db
+import printer
 
 # Load .env
 config.setup()
 
-# Read in the isbns list
-input = open("isbns.txt")
-isbns = input.readlines()
-input.close()
+# Target file locations
+isbn_file_path = "./isbns.txt"
+csv_file_path = "./data.csv"
 
-for isbn in isbns:
+# Read in the isbns list if file exists
+# This will scrape data for Books table
+if os.path.isfile(isbn_file_path):
+    input = open(isbn_file_path)
+    isbns = input.readlines()
+    input.close()
+
+    for isbn in isbns:
+        scraper.fetch_and_store(isbn)
+else:
     print()
-    print(f"Starting processing for {isbn}...")
-    time.sleep(1)
+    printer.red(f"No {isbn_file_path} found, continuing...")
 
-    # Request and cache file if not in cache
-    file_path = f"./cache/{isbn}.html"
-    if not os.path.isfile(file_path):
-        # Request webpage 
-        URL = "https://isbnsearch.org/isbn/" + isbn
-        page = requests.get(URL)
+# Read in the csv data if file exists
+# This will scrape data for Books table
+# AND insert Series and History for each row
+if os.path.isfile(csv_file_path):
+    f = open(csv_file_path, mode='r')
+    rows = csv.DictReader(f)
 
-        # Cache requested webpage
-        with open(f"./cache/{isbn}.html", 'wb') as f:
-            f.write(page.content)
-
-    # Read cached file and scrape info
-    with open(file_path, "r") as fp:
-        soup = BeautifulSoup(fp, "html.parser")
-
-        # book info
-        bookMeta = soup.find(id="book")
-        image = bookMeta.find("img")
-        info = bookMeta.find("div", class_="bookinfo")
-
+    for row in rows:
         data = {}
-        data["Title"] = info.find("h1").text.strip()
-        data["ISBN13"] = extract_text(info, "ISBN-13:")
-        data["ISBN10"] = extract_text(info, "ISBN-10:")
-        data["Author"] = extract_text(info, "Author:")
-        data["Binding"] = extract_text(info, "Binding:")
-        data["Publisher"] = extract_text(info, "Publisher:")
-        data["Published"] = extract_text(info, "Published:")
-
-        # Print, get image, and save to database
-        custom_pretty_print(data)
-        get_image_and_save(data, image)
-        add_book_if_not_exists(data)
-
-
-
+        isbn = row["ISBN"]
+        series_name = row["Series"]
+        data["StartDate"] = row["Start"]
+        data["EndDate"] = row["End"]
+        
+        # Ensure book exists, ensure series exists, update link and add history
+        data["BookId"] = scraper.fetch_and_store(isbn)
+        series_id = db.add_series_if_not_exists(series_name)
+        printer.custom_pretty_print(data)
+        db.update_book_series(data["BookId"], series_id)
+        db.add_history_if_not_exists(data)
+else:
+    print()
+    printer.red(f"No {csv_file_path} found, continuing...")

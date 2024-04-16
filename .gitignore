@@ -42,6 +42,7 @@ next-env.d.ts
 **/__pycache__
 
 tools/isbns.txt
+tools/data.csv
 tools/cache/*.html
 tools/images/*.jpg
 

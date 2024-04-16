@@ -1,5 +1,6 @@
 import requests
 import os
+import printer
 
 def extract_text(info, targetText):
     label = info.find("strong", string=lambda text: targetText in text)
@@ -11,17 +12,12 @@ def extract_text(info, targetText):
     else:
         return "".join(p.findAll(text=True, recursive=False)).strip()
 
-def custom_pretty_print(d):
-    for key, value in d.items():
-        print(f"{key}: {value}")
-    print()
-
 def get_image_and_save(book, img):
     imageLocation = os.getenv("IMAGE_PATH")
     file_path = f"{imageLocation}/{book["ISBN13"]}.jpg"
 
     if os.path.isfile(file_path):
-        print("Image already exists.")
+        printer.yellow("Image already exists.")
     else:
         # Request image
         URL = img["src"]

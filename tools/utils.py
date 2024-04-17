@@ -4,6 +4,10 @@ import printer
 
 def extract_text(info, targetText):
     label = info.find("strong", string=lambda text: targetText in text)
+    if not label:
+        printer.yellow(f"No {targetText} found")
+        return f'<{targetText}>'
+
     p = label.parent
 
     link = p.find("a")

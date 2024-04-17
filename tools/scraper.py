@@ -5,6 +5,13 @@ from utils import extract_text,get_image_and_save
 from db import add_book_if_not_exists
 import printer
 
+fakeHeaders = {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" ,
+    'referer':'https://www.google.com/',
+    # The cookie will need to be periodically updated, probably.
+    "cookie": "PHPSESSID=ritsfmivu51ik5at9ndveoarvc" 
+}
+
 def fetch_and_store(isbn):
     print()
     printer.blue(f"Starting processing for {isbn}...")
@@ -15,7 +22,7 @@ def fetch_and_store(isbn):
     if not os.path.isfile(file_path):
         # Request webpage 
         URL = "https://isbnsearch.org/isbn/" + isbn
-        page = requests.get(URL)
+        page = requests.get(URL, headers=fakeHeaders)
 
         # Cache requested webpage
         with open(f"./cache/{isbn}.html", 'wb') as f:
@@ -27,6 +34,10 @@ def fetch_and_store(isbn):
 
         # book info
         bookMeta = soup.find(id="book")
+        if not bookMeta:
+            printer.red("Unable to find book information; probably hit with captcha")
+            exit(1)
+
         image = bookMeta.find("img")
         info = bookMeta.find("div", class_="bookinfo")
 

@@ -1,6 +1,8 @@
 import sqlite3
 import os
 
+import printer
+
 def create_connection(db_file):
     """
     Create a database connection to the SQLite database specified by db_file
@@ -10,6 +12,7 @@ def create_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
+        conn.row_factory = sqlite3.Row # Make query results dict rather than tuple
     except IOError as e:
         print(e)
 
@@ -122,12 +125,13 @@ def add_book_if_not_exists(book):
         existing_book = fetch_book(conn, book)
         
         if existing_book:
-            print("Book already exists in database, continuing...")
-            return existing_book["Id"]
+            existing_id = existing_book["Id"]
+            printer.yellow(f"Book({existing_id}) already exists in database, continuing...")
+            return existing_id
         else:
             # Create book entry as it doesn't exist
             book_id = create_book(conn, book)
-            print("Book added to database.")
+            printer.green("Book added to database.")
             return book_id
 
 def add_series_if_not_exists(series_name):
@@ -143,12 +147,13 @@ def add_series_if_not_exists(series_name):
         existing_series = fetch_series(conn, series_name)
         
         if existing_series:
-            print("Series already exists in database, continuing...")
-            return existing_series["Id"]
+            existing_id = existing_series["Id"]
+            printer.yellow(f"Series({existing_id}) already exists in database, continuing...")
+            return existing_id
         else:
             # Create series entry as it doesn't exist
             series_id = create_series(conn, series_name)
-            print("Series added to database.")
+            printer.green("Series added to database.")
             return series_id
 
 def update_book_series(book_id, series_id):
@@ -162,9 +167,9 @@ def update_book_series(book_id, series_id):
         if series_id:      
             # Create bookseries entry
             create_book_series(conn, book_id, series_id)
-            print("BooksSeries added to database.")
+            printer.green("BooksSeries added to database.")
         else:
-            print("No series attached, continuing...")
+            printer.yellow("No series attached, continuing...")
 
 def add_history_if_not_exists(history):
     database = os.getenv("DATABASE_PATH")
@@ -175,10 +180,11 @@ def add_history_if_not_exists(history):
         existing_history = fetch_history(conn, history)
         
         if existing_history:
-            print("History already exists in database, continuing...")
-            return existing_history["Id"]
+            existing_id = existing_history["Id"]
+            printer.yellow(f"History({existing_id}) already exists in database, continuing...")
+            return existing_id
         else:
             # Create history entry as it doesn't exist
             history_id = create_history(conn, history)
-            print("History added to database.")
+            printer.green("History added to database.")
             return history_id

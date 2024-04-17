@@ -35,9 +35,16 @@ if os.path.isfile(csv_file_path):
     for row in rows:
         data = {}
         isbn = row["ISBN"]
-        series_name = row["Series"]
-        data["StartDate"] = row["Start"]
-        data["EndDate"] = row["End"]
+        if not isbn:
+            printer.magenta("Row doesn't have an ISBN, skipping...")
+            continue
+
+        series_name = row["Series"] or None
+        data["StartDate"] = row["Start"] or None
+        data["EndDate"] = row["End"] or None
+        if not data["StartDate"]:
+            printer.magenta("Row doesn't have a StartDate, skipping...")
+            continue
         
         # Ensure book exists, ensure series exists, update link and add history
         data["BookId"] = scraper.fetch_and_store(isbn)

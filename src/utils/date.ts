@@ -1,3 +1,7 @@
+export function getDateYear(date: string) {
+  return new Date(date).getFullYear();
+}
+
 export function getTodayYYYYMMDD() {
   return new Date()
     .toLocaleDateString('en-GB', {

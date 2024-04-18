@@ -13,7 +13,7 @@ function filterBooks(searchString: string) {
   const terms = searchString.toLowerCase().trim().split(' ');
 
   return function (value: BookViewModel) {
-    return terms.some(
+    return terms.every(
       (t) =>
         value.title.toLowerCase().includes(t) ||
         value.author.toLowerCase().includes(t) ||

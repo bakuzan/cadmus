@@ -8,8 +8,7 @@ import printer
 fakeHeaders = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" ,
     'referer':'https://www.google.com/',
-    # The cookie will need to be periodically updated, probably.
-    "cookie": "PHPSESSID=ritsfmivu51ik5at9ndveoarvc" 
+    "cookie": "" # Set at run time
 }
 
 def fetch_and_store(isbn):
@@ -20,6 +19,7 @@ def fetch_and_store(isbn):
     # Request and cache file if not in cache
     file_path = f"./cache/{isbn}.html"
     if not os.path.isfile(file_path):
+        fakeHeaders["cookie"] = os.getenv("SCRAPER_COOKIE")
         # Request webpage 
         URL = "https://isbnsearch.org/isbn/" + isbn
         page = requests.get(URL, headers=fakeHeaders)

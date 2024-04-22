@@ -1,7 +1,7 @@
 /* Data Tables */
 
 CREATE UNIQUE INDEX IF NOT EXISTS "Books_ISBN13_Index" ON "Books" ("ISBN13");
-CREATE UNIQUE INDEX IF NOT EXISTS "Books_ISBN10_Index" ON "Books" ("ISBN10");
+CREATE UNIQUE INDEX IF NOT EXISTS "Books_ISBN10_Index" ON "Books" ("ISBN10") WHERE "ISBN10" IS NOT NULL;
 CREATE UNIQUE INDEX IF NOT EXISTS "Books_Unique_Columns" ON "Books" ("Title","Author","Publisher","Published");
 
 CREATE INDEX IF NOT EXISTS "Library_BookId_Index" ON "Library" ("BookId");

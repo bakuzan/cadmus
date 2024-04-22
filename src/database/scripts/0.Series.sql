@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "Series" (
 	"Id"	        	INTEGER NOT NULL UNIQUE,
-	"Name"			    TEXT NOT NULL,
+	"Name"			    TEXT NOT NULL UNIQUE,
 	PRIMARY KEY("Id" AUTOINCREMENT),
 	UNIQUE("Name")
 );

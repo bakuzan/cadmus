@@ -14,11 +14,11 @@ fakeHeaders = {
 def fetch_and_store(isbn):
     print()
     printer.blue(f"Starting processing for {isbn}...")
-    time.sleep(1)
 
     # Request and cache file if not in cache
     file_path = f"./cache/{isbn}.html"
     if not os.path.isfile(file_path):
+        time.sleep(1) # Lets slow down any scraping we do.
         fakeHeaders["cookie"] = os.getenv("SCRAPER_COOKIE")
         # Request webpage 
         URL = "https://isbnsearch.org/isbn/" + isbn

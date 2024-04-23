@@ -1,7 +1,9 @@
+/* Date Manipulations */
 export function getDateYear(date: string) {
   return new Date(date).getFullYear();
 }
 
+/* Date Formatting */
 export function getTodayYYYYMMDD() {
   return new Date()
     .toLocaleDateString('en-GB', {

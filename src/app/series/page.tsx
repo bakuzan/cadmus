@@ -2,9 +2,8 @@ import { getSeries } from '@/database/series';
 
 import getPageTitle from '@/utils/getPageTitle';
 
-import List from '@/components/List';
 import AddSeries from '@/components/AddSeries';
-import UpdateSeries from '@/components/UpdateSeries';
+import SeriesList from '@/components/SeriesList';
 
 export const metadata = {
   title: getPageTitle('Series')
@@ -18,13 +17,7 @@ export default async function Series() {
       <h1>Series</h1>
       <AddSeries />
       <hr />
-      <List>
-        {series.map((s) => (
-          <li key={s.id}>
-            <UpdateSeries data={s} showLink />
-          </li>
-        ))}
-      </List>
+      <SeriesList data={series} />
     </>
   );
 }

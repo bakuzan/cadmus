@@ -3,16 +3,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { getFullHistory } from '@/database/history';
+import { formatDateForDisplay, getDateYear } from '@/utils/date';
+import getDifferenceBetweenDates from '@/utils/getDateDifference';
 
 import styles from './page.module.css';
-import { formatDateForDisplay, getDateYear } from '@/utils/date';
 
 export default async function Home() {
   const history = await getFullHistory();
 
   return (
     <>
-      <h1>Complete Read History</h1>
+      <h1>Book Read History</h1>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -28,15 +29,37 @@ export default async function Home() {
             const year = getDateYear(x.startDate);
             const isNewYear = prevYear !== year;
 
+            const diff = getDifferenceBetweenDates(x.startDate, x.endDate);
+            const daysLabel = `${diff.details} ${diff.text}`;
+
             return (
               <React.Fragment key={x.historyId}>
-                {isNewYear && (
-                  <tr>
-                    <th colSpan={3}>
-                      <div className={styles.yearHeader}>{year}</div>
-                    </th>
-                  </tr>
-                )}
+                {isNewYear &&
+                  (() => {
+                    const bookCount = arr.filter(
+                      (h) => getDateYear(h.startDate) === year
+                    ).length;
+                    const s = bookCount === 1 ? '' : 's';
+                    const label = `${bookCount} book${s} read`;
+
+                    return (
+                      <tr>
+                        <th colSpan={3}>
+                          <div className={styles.yearHeader}>
+                            <span>{year}</span>
+                            &nbsp;
+                            <span
+                              className={styles.muted}
+                              aria-label={label}
+                              title={label}
+                            >
+                              <span aria-hidden>({bookCount})</span>
+                            </span>
+                          </div>
+                        </th>
+                      </tr>
+                    );
+                  })()}
                 <tr>
                   <td className={styles.imageCell}>
                     {!x.endDate && (
@@ -64,7 +87,9 @@ export default async function Home() {
                   <td data-column-title="Dates">
                     <div className={styles.dates}>
                       <div>{formatDateForDisplay(x.startDate)}</div>
-                      <div>&nbsp;–&nbsp;</div>
+                      <div title={daysLabel}>
+                        <span aria-hidden>&nbsp;–&nbsp;</span>
+                      </div>
                       <div>
                         {x.endDate
                           ? formatDateForDisplay(x.endDate)

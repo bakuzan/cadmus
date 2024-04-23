@@ -1,0 +1,29 @@
+/* General table styles */
+.table {
+  border-collapse: collapse;
+  height: fit-content; /* Required to allow div's in td to height: 100% */
+  cursor: default;
+}
+.table th,
+.table td {
+  padding: 0.25rem;
+}
+.table tbody tr {
+  border-top: 1px dotted;
+  border-bottom: 1px dotted;
+  border-color: var(--muted-colour);
+}
+.table tbody tr:hover {
+  background-color: var(--primary-background-colour);
+  color: var(--primary-constrast-colour);
+}
+
+/* Page styles */
+.grid {
+  margin: 1rem 0;
+  display: grid;
+}
+
+.total {
+  border-left: 1px dotted;
+}

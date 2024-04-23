@@ -4,4 +4,5 @@
   align-items: center;
   padding: 1rem;
   border: 1px solid var(--primary-background-colour);
+  margin: 5px 0;
 }

@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# files
+*.bak
+
 # dependencies
 /node_modules
 /.pnp
@@ -15,6 +18,8 @@
 
 # production
 /build
+/iisnode
+web.config
 
 # misc
 .DS_Store

@@ -4,6 +4,8 @@ import getPageTitle from '@/utils/getPageTitle';
 
 import BookList from '@/components/BookList';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: getPageTitle('Books')
 };

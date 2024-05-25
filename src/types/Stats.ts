@@ -4,6 +4,7 @@ import { UncapitalizeObjectKeys } from './utils';
 export interface BookCountByYear {
   Year: number;
   Total: number;
+  AverageDays: number;
 }
 
 // View models

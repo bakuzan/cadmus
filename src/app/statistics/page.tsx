@@ -23,6 +23,7 @@ export default async function Statistics() {
               <tr>
                 <th></th>
                 <th>Book(s)</th>
+                <th>Average Days</th>
               </tr>
             </thead>
             <tbody>
@@ -30,6 +31,7 @@ export default async function Statistics() {
                 <tr key={row.year}>
                   <td>{row.year}</td>
                   <td className={styles.total}>{row.total}</td>
+                  <td className={styles.averageDays}>{row.averageDays}</td>
                 </tr>
               ))}
             </tbody>

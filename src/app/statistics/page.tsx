@@ -6,6 +6,8 @@ import getPageTitle from '@/utils/getPageTitle';
 
 import styles from './page.module.css';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: getPageTitle('Statistics')
 };

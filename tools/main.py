@@ -20,7 +20,7 @@ if os.path.isfile(isbn_file_path):
     input.close()
 
     for isbn in isbns:
-        scraper.fetch_and_store(isbn)
+        scraper.fetch_and_store(isbn.strip())
 else:
     print()
     printer.red(f"No {isbn_file_path} found, continuing...")

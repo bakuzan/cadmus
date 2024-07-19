@@ -1,3 +1,6 @@
-SELECT *
-  FROM Books
-  ORDER BY Title
+SELECT
+    *
+FROM
+    Books
+ORDER BY
+    Title

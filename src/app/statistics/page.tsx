@@ -32,8 +32,15 @@ export default async function Statistics() {
               {yearCounts.map((row) => (
                 <tr key={row.year}>
                   <td>{row.year}</td>
-                  <td className={styles.total}>{row.total}</td>
-                  <td className={styles.averageDays}>{row.averageDays}</td>
+                  <td className={styles.total} data-column-title="Book(s)">
+                    {row.total}
+                  </td>
+                  <td
+                    className={styles.averageDays}
+                    data-column-title="Average Days"
+                  >
+                    {row.averageDays}
+                  </td>
                 </tr>
               ))}
             </tbody>

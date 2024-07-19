@@ -24,6 +24,10 @@
   display: grid;
 }
 
+.year {
+  font-weight: bold;
+}
+
 .total {
   border-left: 1px dotted;
 }

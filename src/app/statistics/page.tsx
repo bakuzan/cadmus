@@ -31,7 +31,7 @@ export default async function Statistics() {
             <tbody>
               {yearCounts.map((row) => (
                 <tr key={row.year}>
-                  <td>{row.year}</td>
+                  <td className={styles.year}>{row.year}</td>
                   <td className={styles.total} data-column-title="Book(s)">
                     {row.total}
                   </td>

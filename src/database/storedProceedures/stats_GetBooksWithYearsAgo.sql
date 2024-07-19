@@ -6,7 +6,7 @@ WITH
           , B.Author
           , MAX(H.StartDate) StartDate
           , MAX(H.EndDate) EndDate
-          , strftime ('%Y', 'now') - strftime ('%Y', MAX(H.StartDate)) YearsAgo
+          , CAST((julianday('now') - julianday(MAX(H.StartDate))) / 365.25 AS INT) YearsAgo
           , CASE
                 WHEN strftime ('%m-%d', MAX(H.StartDate)) <= strftime ('%m-%d', 'now')
                 AND strftime ('%m-%d', MAX(H.EndDate)) >= strftime ('%m-%d', 'now') THEN 1
@@ -30,4 +30,4 @@ WHERE
     )
 ORDER BY
     IsExact DESC
-  , YearsAgo DESC
+  , YearsAgo ASC

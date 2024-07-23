@@ -31,3 +31,4 @@ WHERE
 ORDER BY
     IsExact DESC
   , YearsAgo ASC
+  , StartDate DESC

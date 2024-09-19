@@ -2,12 +2,12 @@
 export interface Book {
   Id: number;
   Title: string;
-  ISBN13: string;
-  ISBN10: string;
+  ISBN13: string | null;
+  ISBN10: string | null;
   Author: string;
   Binding: string;
-  Publisher: string;
-  Published: string;
+  Publisher: string | null;
+  Published: string | null;
 }
 
 export interface BookInLibrary extends Book {

@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import { revalidatePath } from 'next/cache';
-import Image from 'next/image';
 
 import { getBookById, toggleBookInLibrary } from '@/database/books';
 import { getHistoryByBookId } from '@/database/history';
 import { getSeries } from '@/database/series';
 import getPageTitle from '@/utils/getPageTitle';
 
+import ImageWithFallback from '@/components/ImageWithFallback';
 import List from '@/components/List';
 import BookInfoTable from '@/components/BookInfoTable';
 import AddHistory from '@/components/AddHistory';
@@ -65,7 +65,7 @@ export default async function BookById({ params }: { params: { id: string } }) {
           </button>
         </form>
         <div className={styles.wrapper}>
-          <Image
+          <ImageWithFallback
             className={styles.image}
             src={`/api/image/${book.isbn13}`}
             alt={`Cover for ${book.title}, published by ${book.publisher}`}

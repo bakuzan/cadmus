@@ -1,6 +1,7 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+
+import ImageWithFallback from '@/components/ImageWithFallback';
 
 import { getFullHistory } from '@/database/history';
 import { formatDateForDisplay, getDateYear } from '@/utils/date';
@@ -65,7 +66,7 @@ export default async function Home() {
                 <tr>
                   <td className={styles.imageCell}>
                     {!x.endDate && (
-                      <Image
+                      <ImageWithFallback
                         className={styles.image}
                         src={`/api/image/${x.isbn13}`}
                         alt={`Cover for ${x.title}`}

@@ -15,7 +15,8 @@ export default function SearchBox(props: SearchBoxProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useKeyPress(['s', 'S'], (event) => {
-    if (!document.activeElement || document.activeElement.id !== 'search') {
+    // If we are not currently focussed on an input, then steal focus to SearchBox
+    if (!document.activeElement || document.activeElement.tagName !== 'INPUT') {
       event.preventDefault();
       inputRef.current?.focus();
     }

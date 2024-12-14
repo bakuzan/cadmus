@@ -10,10 +10,11 @@ import getPageTitle from '@/utils/getPageTitle';
 import styles from './page.module.css';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const series = await getSeriesById(params.id);
 
   return {
@@ -21,11 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function SeriesById({
-  params
-}: {
-  params: { id: string };
-}) {
+export default async function SeriesById(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const seriesId = params.id;
   const series = await getSeriesById(seriesId);
 

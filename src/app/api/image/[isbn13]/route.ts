@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-type URLParams = { params: { isbn13: string } };
+type URLParams = { params: Promise<{ isbn13: string }> };
 
-export async function GET(_request: Request, { params }: URLParams) {
+export async function GET(_request: Request, props: URLParams) {
+  const params = await props.params;
   if (!process.env.IMAGES_PATH) {
     throw new Error('No images folder set.');
   }

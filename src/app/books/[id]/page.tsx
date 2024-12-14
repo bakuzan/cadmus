@@ -15,11 +15,12 @@ import UpdateHistory from '@/components/UpdateHistory';
 import styles from './page.module.css';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
   //   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const book = await getBookById(params.id);
 
   return {
@@ -27,7 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function BookById({ params }: { params: { id: string } }) {
+export default async function BookById(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const book = await getBookById(params.id);
   const history = await getHistoryByBookId(params.id);
   const series = await getSeries();

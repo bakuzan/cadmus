@@ -15,6 +15,7 @@ interface BookInfoTableProps {
 
 export default function BookInfoTable({ book, series }: BookInfoTableProps) {
   const toast = useToast();
+  const defaultSeriesValue = book.seriesId ?? undefined;
 
   return (
     <table className={styles.bookTable}>
@@ -74,10 +75,11 @@ export default function BookInfoTable({ book, series }: BookInfoTableProps) {
 
               <label className={styles.label}>
                 <select
+                  key={defaultSeriesValue}
                   className={styles.select}
                   id="seriesId"
                   name="seriesId"
-                  defaultValue={book.seriesId ?? undefined}
+                  defaultValue={defaultSeriesValue}
                 >
                   <option value="">None</option>
                   {series.map((s) => (

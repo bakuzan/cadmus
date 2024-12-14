@@ -28,7 +28,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-export default async function BookById(props: { params: Promise<{ id: string }> }) {
+export default async function BookById(props: Props) {
   const params = await props.params;
   const book = await getBookById(params.id);
   const history = await getHistoryByBookId(params.id);

@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const history = await getFullHistory();
-
+  console.log(history);
   return (
     <>
       <h1>Book Read History</h1>
@@ -39,9 +39,11 @@ export default async function Home() {
               <React.Fragment key={x.historyId}>
                 {isNewYear &&
                   (() => {
-                    const bookCount = arr.filter(
-                      (h) => getDateYear(h.startDate) === year
-                    ).length;
+                    const bookCount = arr.reduce(
+                      (p, c) =>
+                        getDateYear(c.startDate) === year ? p + c.bookCount : p,
+                      0
+                    );
                     const s = bookCount === 1 ? '' : 's';
                     const label = `${bookCount} book${s} read`;
 

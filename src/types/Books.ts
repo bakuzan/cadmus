@@ -13,6 +13,7 @@ export interface Book {
 export interface BookInLibrary extends Book {
   LibraryId: number | null;
   SeriesId: number | null;
+  BookCount: number;
 }
 
 // View model
@@ -30,6 +31,7 @@ export interface BookViewModel {
 export interface BookInLibraryViewModel extends BookViewModel {
   inLibrary: boolean;
   seriesId: number | null;
+  bookCount: number;
 }
 
 export interface BookSimpleViewModel {

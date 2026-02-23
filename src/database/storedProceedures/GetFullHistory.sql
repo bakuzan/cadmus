@@ -8,11 +8,13 @@ SELECT
   , B.Title
   , B.Author
   , S.Name SeriesName
+  , COALESCE(M.BookCount, 1) AS "BookCount"
 FROM
     History H
     JOIN Books B ON H.BookId = B.Id
     LEFT JOIN BooksSeries BS ON B.Id = BS.BookId
     LEFT JOIN Series S ON BS.SeriesId = S.Id
+    LEFT JOIN BooksMeta M ON B.Id = M.BookId
 ORDER BY
     CASE
         WHEN EndDate IS NULL THEN 0

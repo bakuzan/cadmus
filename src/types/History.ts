@@ -15,6 +15,7 @@ export interface HistoryDetailed {
   Title: string;
   Author: string;
   SeriesName: string | null;
+  BookCount: number;
 }
 
 // View model
@@ -34,6 +35,7 @@ export interface HistoryDetailedViewModel {
   title: string;
   author: string;
   seriesName: string | null;
+  bookCount: number;
 }
 
 // Requests

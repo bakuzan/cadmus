@@ -25,6 +25,7 @@ export function toHistoryDetailedViewModel(
     isbn13: history.ISBN13,
     title: history.Title,
     author: history.Author,
-    seriesName: history.SeriesName
+    seriesName: history.SeriesName,
+    bookCount: history.BookCount
   };
 }

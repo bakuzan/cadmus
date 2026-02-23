@@ -27,6 +27,7 @@ export function toBookInLibraryViewModel(
   return {
     ...item,
     inLibrary,
-    seriesId: book.SeriesId
+    seriesId: book.SeriesId,
+    bookCount: book.BookCount
   };
 }

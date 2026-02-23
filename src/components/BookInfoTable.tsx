@@ -104,6 +104,14 @@ export default function BookInfoTable({ book, series }: BookInfoTableProps) {
             <InLibraryIcon isIn={book.inLibrary} />
           </td>
         </tr>
+        {book.bookCount > 1 && (
+          <tr>
+            <th>
+              <strong>Counts As</strong>
+            </th>
+            <td>{book.bookCount} books</td>
+          </tr>
+        )}
       </tbody>
     </table>
   );

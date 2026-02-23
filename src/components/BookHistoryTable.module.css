@@ -17,6 +17,14 @@
 .yearHeader {
   padding: 5px;
   text-align: left;
+  width: 100%;
+  box-shadow: none !important;
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px 0 solid transparent;
+}
+.yearHeader:hover {
+  border-color: var(--primary-background-colour);
 }
 .muted {
   color: var(--muted-colour);

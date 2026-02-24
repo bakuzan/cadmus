@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  getBookCountByYear,
-  getBooksWithYearsAgo
-} from '@/database/statistics';
+import { getBookCountByYear } from '@/database/statistics';
 
 import getPageTitle from '@/utils/getPageTitle';
 
@@ -17,7 +14,6 @@ export const metadata = {
 
 export default async function Statistics() {
   const yearCounts = await getBookCountByYear();
-  const yearsAgoList = await getBooksWithYearsAgo();
 
   return (
     <>
@@ -50,70 +46,6 @@ export default async function Statistics() {
             </tbody>
           </table>
         </div>
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>What Were You Reading?</h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Book</th>
-                <th>Author</th>
-                <th>Years Ago</th>
-              </tr>
-            </thead>
-            <tbody>
-              {yearsAgoList
-                .filter((x) => x.isExact)
-                .map((row) => (
-                  <tr key={row.bookId}>
-                    <td className={styles.title} data-column-title="Book">
-                      {row.title}
-                    </td>
-                    <td className={styles.author} data-column-title="Author">
-                      {row.author}
-                    </td>
-                    <td
-                      className={styles.yearsAgo}
-                      data-column-title="Years Ago"
-                    >
-                      {row.yearsAgo}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </section>
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>What To Re-Read?</h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Book</th>
-                <th>Author</th>
-                <th>Years Ago</th>
-              </tr>
-            </thead>
-            <tbody>
-              {yearsAgoList
-                .filter((x) => !x.isExact)
-                .map((row) => (
-                  <tr key={row.bookId}>
-                    <td className={styles.title} data-column-title="Book">
-                      {row.title}
-                    </td>
-                    <td className={styles.author} data-column-title="Author">
-                      {row.author}
-                    </td>
-                    <td
-                      className={styles.yearsAgo}
-                      data-column-title="Years Ago"
-                    >
-                      {row.yearsAgo}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </section>
       </div>
     </>
   );

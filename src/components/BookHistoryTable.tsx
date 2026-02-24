@@ -62,7 +62,7 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
                   const label = `${bookCount} book${s} read`;
 
                   return (
-                    <tr className="year-row">
+                    <tr className={styles.yearRow}>
                       <th colSpan={3}>
                         <button
                           className={styles.yearHeader}

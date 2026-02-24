@@ -14,6 +14,23 @@
   border-color: var(--muted-colour);
 }
 
+.yearRow.yearRow {
+  --sticky-row-height: 27px;
+  position: sticky;
+  top: var(--navbar-height);
+  height: var(--sticky-row-height);
+  background: var(--cadmus-background-colour, #fff);
+  z-index: 100;
+}
+.yearRow button {
+  font-weight: bold;
+  border: 1px solid transparent;
+  margin: 4px 0;
+}
+.yearRow button:hover {
+  border-color: var(--primary-background-colour);
+}
+
 .yearHeader {
   padding: 5px;
   text-align: left;
@@ -21,11 +38,8 @@
   box-shadow: none !important;
   font-family: inherit;
   font-size: inherit;
-  border: 1px 0 solid transparent;
 }
-.yearHeader:hover {
-  border-color: var(--primary-background-colour);
-}
+
 .muted {
   color: var(--muted-colour);
   font-size: 0.8rem;

@@ -1,0 +1,35 @@
+.statsNavbar {
+  position: fixed;
+  top: var(--navbar-height);
+  width: 100%;
+  margin-left: -1rem;
+  background: var(--accent-background-colour);
+  color: var(--accent-constrast-colour);
+}
+
+.statsNavbarList {
+  display: flex;
+  list-style-type: none;
+}
+.statsNavbarList li {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.statsNavbarLink {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding: 5px;
+  color: var(--primary-constrast-colour);
+  text-decoration: none !important;
+}
+.statsNavbarLink:hover,
+.statsNavbarLinkActive {
+  background: var(--primary-background-colour);
+}
+
+.childrenWrapper {
+  padding-top: 1rem;
+}

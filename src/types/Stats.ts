@@ -7,5 +7,12 @@ export interface BookCountByYear {
   AverageDays: number;
 }
 
+export interface RawBookHistoryRow {
+  BookId: number;
+  StartDate: string;
+  EndDate: string | null;
+  BookCount: number;
+}
+
 // View models
 export type BookCountByYearViewModel = UncapitalizeObjectKeys<BookCountByYear>;

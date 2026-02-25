@@ -10,7 +10,10 @@ type FullLinkProps = LinkProps &
     children: ReactNode;
   };
 
-export default function ActiveLink(props: FullLinkProps) {
+export default function ActiveLink({
+  activeClassName,
+  ...props
+}: FullLinkProps) {
   const pathname = usePathname();
   const isActive =
     pathname === props.href || pathname.startsWith(props.href + '/');
@@ -18,9 +21,7 @@ export default function ActiveLink(props: FullLinkProps) {
   return (
     <Link
       {...props}
-      className={[props.className, isActive ? props.activeClassName : ''].join(
-        ' '
-      )}
+      className={[props.className, isActive ? activeClassName : ''].join(' ')}
     />
   );
 }

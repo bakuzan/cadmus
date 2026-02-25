@@ -21,4 +21,4 @@ ORDER BY
         ELSE 1
     END
   , StartDate DESC
-  , EndDate DESC
+  , EndDate DESC;

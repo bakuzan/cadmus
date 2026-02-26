@@ -7,6 +7,7 @@ import getPageTitle from '@/utils/getPageTitle';
 
 import './globals.css';
 import './table.css';
+import './tooltip.css';
 
 export const metadata: Metadata = {
   title: getPageTitle(),

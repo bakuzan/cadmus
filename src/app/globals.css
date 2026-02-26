@@ -27,6 +27,9 @@
   --table-border-colour: var(--muted-colour);
   --table-cell-border-colour: transparent;
 
+  --history-count-header-cell-background-colour: #f1f2f3;
+  --history-count-cell-background-colour: var(--accent-background-colour);
+
   font-size: var(--font-size);
   font-family: var(--font-family);
 }
@@ -87,6 +90,7 @@ button {
   box-shadow: none;
   cursor: pointer;
   padding: 4px;
+  font-family: var(--font-family);
 }
 
 button:active,

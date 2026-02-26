@@ -18,7 +18,7 @@ export async function getBookCountByYear() {
 export async function getBookHistoryMonthCounts() {
   const query = getStoredProceedure('stats_GetRawBookHistoryRows');
   const rows = db.prepare(query).all() as RawBookHistoryRow[];
-  const monthTotals: Record<string, number> = {};
+  const monthBooks: Record<string, number[]> = {};
 
   for (const row of rows) {
     const start = new Date(row.StartDate);
@@ -30,14 +30,13 @@ export async function getBookHistoryMonthCounts() {
       .map((m) => ({ month: m, days: getOverlapDays(start, end, m) }))
       .filter((x) => x.days > 0);
 
-    const totalDays = monthDurations.reduce((a, b) => a + b.days, 0);
+    const ensure = (m: string) => (monthBooks[m] ??= []);
 
     if (bookCount === 1) {
       // Majority month gets the full count
       const maxDays = Math.max(...monthDurations.map((x) => x.days));
       const winner = monthDurations.find((x) => x.days === maxDays)!;
-
-      monthTotals[winner.month] = (monthTotals[winner.month] ?? 0) + 1;
+      ensure(winner.month).push(row.BookId);
       continue;
     }
 
@@ -45,10 +44,11 @@ export async function getBookHistoryMonthCounts() {
     const allocations = allocateWholeBooks(monthDurations, bookCount);
     for (const a of allocations) {
       if (a.value > 0) {
-        monthTotals[a.month] = (monthTotals[a.month] ?? 0) + a.value;
+        const bucket = ensure(a.month);
+        bucket.push(...Array(a.value).fill(row.BookId));
       }
     }
   }
 
-  return monthTotals;
+  return monthBooks;
 }

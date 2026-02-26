@@ -1,4 +1,4 @@
-export default new Map([
+const MONTHS = new Map([
   ['01', { short: 'Jan', long: 'January' }],
   ['02', { short: 'Feb', long: 'February' }],
   ['03', { short: 'Mar', long: 'March' }],
@@ -12,3 +12,5 @@ export default new Map([
   ['11', { short: 'Nov', long: 'November' }],
   ['12', { short: 'Dec', long: 'December' }]
 ]);
+
+export default MONTHS;

@@ -8,7 +8,6 @@ type StoredProceedures =
   | 'GetBooksBySeriesId'
   | 'GetFullHistory'
   // Stat queries
-  | 'stats_GetBookCountByYear'
   | 'stats_GetRawBookHistoryRows'
   | 'stats_GetBookHistoryForPeriod';
 

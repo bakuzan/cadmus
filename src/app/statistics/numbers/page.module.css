@@ -30,6 +30,10 @@
 
 .total {
   border-left: 1px dotted;
+  text-align: center;
+}
+.numberStat {
+  text-align: right;
 }
 
 .section {

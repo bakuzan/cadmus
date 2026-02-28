@@ -1,4 +1,4 @@
-export default function getOverlapDays(
+export default function getOverlapDaysInMonth(
   start: Date,
   end: Date,
   month: string

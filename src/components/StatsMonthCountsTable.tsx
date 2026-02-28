@@ -1,8 +1,14 @@
 'use client';
+import { useState } from 'react';
+
+import { BookHistoryForPeriod } from '@/types/Stats';
+
 import monthNames from '@/constants/monthNames';
+import StatsMonthCountsDetail from './StatsMonthCountDetail';
+import useToast from '@/hooks/useToast';
+import getLabelForPeriodString from '@/utils/getLabelForPeriodString';
 
 import styles from '@/components/StatsMonthCountsTable.module.css';
-import { useState } from 'react';
 
 interface StatsMonthCountsTable {
   years: number[];
@@ -14,9 +20,26 @@ const YEAR_DISPLAY_LIMIT = 5;
 
 export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
   const [yearOffset, setYearOffset] = useState(0);
+  const [detail, setDetail] = useState<BookHistoryForPeriod | null>(null);
+  const toast = useToast();
 
-  function onCellClick(label: string, bookIds: number[]) {
-    console.log('TODO >> ', label, bookIds);
+  async function onCellClick(period: string, historyIds: number[]) {
+    try {
+      const res = await fetch('/api/stats-counts-detail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ period, historyIds })
+      });
+
+      if (!res.ok) {
+        throw new Error(`Unable to fetch ${period} counts detail`);
+      }
+
+      const data = await res.json();
+      setDetail(data);
+    } catch (error: any) {
+      toast('error', error.message);
+    }
   }
 
   return (
@@ -57,7 +80,21 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
             .map((year) => (
               <tr key={year}>
                 <th>
-                  <button type="button" className={styles.headerButton}>
+                  <button
+                    type="button"
+                    className={styles.headerButton}
+                    onClick={() => {
+                      const yearIds = Array.from(monthNames.keys()).reduce(
+                        (p, month) => [
+                          ...p,
+                          ...(props.monthCounts.get(`${year}-${month}`) ?? [])
+                        ],
+                        [] as number[]
+                      );
+
+                      onCellClick(`${year}`, yearIds ?? []);
+                    }}
+                  >
                     {year}
                   </button>
                 </th>
@@ -67,7 +104,8 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
                       0) / props.maxMonthCount;
 
                   const label = `${monthNames.get(monthNumber)!.long} ${year}`;
-                  const ids = props.monthCounts.get(`${year}-${monthNumber}`);
+                  const month = `${year}-${monthNumber}`;
+                  const ids = props.monthCounts.get(month);
                   const count = ids?.length ?? 0;
                   const tooltipText = `${count} in ${label}`;
 
@@ -77,7 +115,7 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
                         type="button"
                         className={styles.cellButton}
                         disabled={count === 0}
-                        onClick={() => onCellClick(label, ids ?? [])}
+                        onClick={() => onCellClick(month, ids ?? [])}
                       >
                         <div style={{ opacity: ratio }}></div>
                       </button>
@@ -88,12 +126,12 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
             ))}
         </tbody>
       </table>
-      <section className={styles.detailSection}>
-        <header>
-          <h3>Label</h3>
-        </header>
-        <div className={styles.container}>Table Here</div>
-      </section>
+      {detail && (
+        <StatsMonthCountsDetail
+          label={getLabelForPeriodString(detail.period)}
+          history={detail.history}
+        />
+      )}
     </div>
   );
 }

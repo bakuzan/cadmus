@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { HistoryDetailedViewModel } from '@/types/History';
-
+import { ImageDisplayMode } from '@/constants/imageDisplayMode';
 import ImageWithFallback from '@/components/ImageWithFallback';
 
 import { formatDateForDisplay, getDateYear } from '@/utils/date';
@@ -13,10 +13,15 @@ import styles from './BookHistoryTable.module.css';
 
 interface BookHistoryTableProps {
   history: HistoryDetailedViewModel[];
+  includeYearRows: boolean;
+  imageDisplayMode: ImageDisplayMode;
 }
 
 export default function BookHistoryTable(props: BookHistoryTableProps) {
   const [collapsed, setCollapsed] = useState(new Map<number, boolean>([]));
+  const { includeYearRows, imageDisplayMode } = props;
+  const isNotImageDisplayNone = imageDisplayMode !== ImageDisplayMode.NONE;
+  const isImageDisplayAlways = imageDisplayMode === ImageDisplayMode.ALL;
 
   function toggleYear(year: number) {
     setCollapsed((prev) => {
@@ -44,6 +49,10 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
 
           const diff = getDifferenceBetweenDates(x.startDate, x.endDate);
           const daysLabel = `${diff.details} ${diff.text}`;
+
+          const showImage =
+            isNotImageDisplayNone && (isImageDisplayAlways || !x.endDate);
+
           const isCollapsed = collapsed.get(year) ?? false;
           if (isCollapsed && !isNewYear) {
             return null;
@@ -51,7 +60,8 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
 
           return (
             <React.Fragment key={x.historyId}>
-              {isNewYear &&
+              {includeYearRows &&
+                isNewYear &&
                 (() => {
                   const bookCount = arr.reduce(
                     (p, c) =>
@@ -85,7 +95,7 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
               {!isCollapsed && (
                 <tr>
                   <td className={styles.imageCell}>
-                    {!x.endDate && (
+                    {showImage && (
                       <ImageWithFallback
                         className={styles.image}
                         src={`/api/image/${x.isbn13}`}
@@ -116,7 +126,7 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
                       <div>
                         {x.endDate
                           ? formatDateForDisplay(x.endDate)
-                          : 'Present'}
+                          : '?? ??? ????'}
                       </div>
                     </div>
                   </td>

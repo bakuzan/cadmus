@@ -1,5 +1,5 @@
 SELECT
-    H.BookId,
+    H.Id HistoryId,
     H.StartDate,
     H.EndDate,
     COALESCE(M.BookCount, 1) AS BookCount

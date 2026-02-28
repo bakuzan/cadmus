@@ -1,0 +1,14 @@
+.container {
+  padding: 10px 0;
+}
+.container table {
+  width: 100%;
+  margin: 0;
+}
+
+.detailSection {
+  margin: 25px 10px;
+}
+.detailSection header {
+  margin: 10px 0;
+}

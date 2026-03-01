@@ -5,6 +5,7 @@ import { getBookHistoryYearStats } from '@/database/statistics';
 import getPageTitle from '@/utils/getPageTitle';
 
 import styles from './page.module.css';
+import StatsNumbersTable from '@/components/StatsNumbersTable';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,62 +22,25 @@ export default async function TheNumbers() {
     <>
       <h1>The Numbers</h1>
       <div className={styles.grid}>
-        <div>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th></th>
-                <th className={styles.total}>Book(s)</th>
-                <th className={styles.numberStat}>Average Days</th>
-                <th className={styles.numberStat}>Minimum Days</th>
-                <th className={styles.numberStat}>Maximum Days</th>
-                <th className={styles.numberStat}>Repeats</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(yearStats)
-                .sort((b, a) => a.localeCompare(b))
-                .map((year) => {
-                  const row = yearStats[year];
-
-                  return (
-                    <tr key={year}>
-                      <td className={styles.year}>{year}</td>
-                      <td className={styles.total} data-column-title="Book(s)">
-                        {row.total}
-                      </td>
-                      <td
-                        className={styles.numberStat}
-                        data-column-title="Average Days"
-                      >
-                        {row.averageDays}
-                      </td>
-                      <td
-                        className={styles.numberStat}
-                        data-column-title="Minimum Days"
-                        title={row.minDays.title}
-                      >
-                        {row.minDays.days}
-                      </td>
-                      <td
-                        className={styles.numberStat}
-                        data-column-title="Maximum Days"
-                        title={row.maxDays.title}
-                      >
-                        {row.maxDays.days}
-                      </td>
-                      <td
-                        className={styles.numberStat}
-                        data-column-title="Repeats"
-                      >
-                        {row.repeats}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+        <StatsNumbersTable
+          data={yearStats}
+          columns={[
+            { header: 'Mean Days', key: 'averageDays' },
+            { header: 'Median Days', key: 'medianDays' },
+            { header: 'Std Dev', key: 'stdDev' },
+            { header: 'Minimum Days', key: 'minDays' },
+            { header: 'Maximum Days', key: 'maxDays' },
+            { header: 'Density', key: 'density' }
+          ]}
+        />
+        <StatsNumbersTable
+          data={yearStats}
+          columns={[
+            { header: 'First Time Reads', key: 'firstTimeReads' },
+            { header: 'Repeats', key: 'repeats' },
+            { header: 'Repeat Ratio', key: 'repeatRatio' }
+          ]}
+        />
       </div>
     </>
   );

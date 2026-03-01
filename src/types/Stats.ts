@@ -41,8 +41,13 @@ export type PerYearMinMaxEntry = {
 
 export type PerYearStats = {
   total: number;
+  firstTimeReads: number;
   averageDays: number;
+  medianDays: number;
   minDays: PerYearMinMaxEntry;
   maxDays: PerYearMinMaxEntry;
   repeats: number;
+  repeatRatio: number;
+  density: number;
+  stdDev: number;
 };

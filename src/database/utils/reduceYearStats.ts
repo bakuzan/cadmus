@@ -3,6 +3,8 @@ import {
   PerYearMinMaxEntry,
   PerYearStats
 } from '@/types/Stats';
+import computeMedianDays from './computeMedianDays';
+import computeStandardDeviation from './computeStandardDeviation';
 
 export default function reduceYearStats(
   perYear: Record<string, PerYearCalcData[]>
@@ -11,6 +13,7 @@ export default function reduceYearStats(
 
   for (const year of Object.keys(perYear)) {
     const rows = perYear[year];
+    const dayValues: number[] = [];
 
     let totalBooks = 0;
     let totalRepeats = 0;
@@ -23,6 +26,7 @@ export default function reduceYearStats(
       totalBooks += r.bookCount;
       totalRepeats += r.repeatBookCount;
       totalDays += r.days;
+      dayValues.push(r.days);
 
       if (!minEntry || r.days < minEntry.days) {
         minEntry = { days: r.days, title: r.title };
@@ -34,10 +38,15 @@ export default function reduceYearStats(
 
     result[year] = {
       total: totalBooks,
+      firstTimeReads: totalBooks - totalRepeats,
       repeats: totalRepeats,
+      repeatRatio: Number((totalRepeats / totalBooks).toFixed(2)),
       averageDays: Math.round(totalDays / totalBooks),
+      medianDays: computeMedianDays(dayValues),
       minDays: minEntry!,
-      maxDays: maxEntry!
+      maxDays: maxEntry!,
+      density: Number((totalDays / 365).toFixed(2)),
+      stdDev: computeStandardDeviation(totalBooks, totalDays, dayValues)
     };
   }
 

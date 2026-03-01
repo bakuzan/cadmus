@@ -54,14 +54,16 @@ export default async function TheNumbers() {
                       <td
                         className={styles.numberStat}
                         data-column-title="Minimum Days"
+                        title={row.minDays.title}
                       >
-                        {row.minDays}
+                        {row.minDays.days}
                       </td>
                       <td
                         className={styles.numberStat}
                         data-column-title="Maximum Days"
+                        title={row.maxDays.title}
                       >
-                        {row.maxDays}
+                        {row.maxDays.days}
                       </td>
                       <td
                         className={styles.numberStat}

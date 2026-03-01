@@ -11,6 +11,7 @@ export interface BookCountByYear {
 export interface RawBookHistoryRow {
   HistoryId: number;
   BookId: number;
+  Title: string;
   StartDate: string;
   EndDate: string | null;
   BookCount: number;
@@ -21,6 +22,7 @@ export interface PerYearCalcData {
   days: number;
   bookCount: number;
   repeatBookCount: number;
+  title: string;
 }
 
 // View models
@@ -32,10 +34,15 @@ export type BookHistoryForPeriod = {
   history: HistoryDetailedViewModel[];
 };
 
+export type PerYearMinMaxEntry = {
+  days: number;
+  title: string;
+};
+
 export type PerYearStats = {
   total: number;
   averageDays: number;
-  minDays: number;
-  maxDays: number;
+  minDays: PerYearMinMaxEntry;
+  maxDays: PerYearMinMaxEntry;
   repeats: number;
 };

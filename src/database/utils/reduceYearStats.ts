@@ -1,4 +1,8 @@
-import { PerYearCalcData, PerYearStats } from '@/types/Stats';
+import {
+  PerYearCalcData,
+  PerYearMinMaxEntry,
+  PerYearStats
+} from '@/types/Stats';
 
 export default function reduceYearStats(
   perYear: Record<string, PerYearCalcData[]>
@@ -11,19 +15,20 @@ export default function reduceYearStats(
     let totalBooks = 0;
     let totalRepeats = 0;
     let totalDays = 0;
-    let minDays = Infinity;
-    let maxDays = -Infinity;
+
+    let minEntry: PerYearMinMaxEntry | null = null;
+    let maxEntry: PerYearMinMaxEntry | null = null;
 
     for (const r of rows) {
       totalBooks += r.bookCount;
       totalRepeats += r.repeatBookCount;
       totalDays += r.days;
 
-      if (r.days < minDays) {
-        minDays = r.days;
+      if (!minEntry || r.days < minEntry.days) {
+        minEntry = { days: r.days, title: r.title };
       }
-      if (r.days > maxDays) {
-        maxDays = r.days;
+      if (!maxEntry || r.days > maxEntry.days) {
+        maxEntry = { days: r.days, title: r.title };
       }
     }
 
@@ -31,8 +36,8 @@ export default function reduceYearStats(
       total: totalBooks,
       repeats: totalRepeats,
       averageDays: Math.round(totalDays / totalBooks),
-      minDays,
-      maxDays
+      minDays: minEntry!,
+      maxDays: maxEntry!
     };
   }
 

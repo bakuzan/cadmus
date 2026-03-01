@@ -102,7 +102,8 @@ export async function getBookHistoryYearStats() {
       (perYear[a.key] ??= []).push({
         days: yd.days,
         bookCount: a.value,
-        repeatBookCount: isRepeat ? a.value : 0
+        repeatBookCount: isRepeat ? a.value : 0,
+        title: row.Title
       });
     }
   }

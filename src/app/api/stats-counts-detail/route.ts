@@ -6,5 +6,9 @@ export async function POST(req: Request) {
   const body = await req.json();
   const history = await getBookHistoryForPeriod(body.historyIds);
 
-  return NextResponse.json({ period: body.period, history });
+  return NextResponse.json({
+    period: body.period,
+    bookCount: body.historyIds.length,
+    history
+  });
 }

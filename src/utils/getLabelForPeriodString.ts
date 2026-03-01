@@ -1,17 +1,22 @@
 import monthNames from '@/constants/monthNames';
 
-export default function getLabelForPeriodString(period: string) {
+export default function getLabelForPeriodString(
+  period: string,
+  bookCount: number
+) {
   if (!period) {
     return 'Unknown Period.';
   }
 
-  // Year only handling
+  let label: string;
+
   if (!period.includes('-')) {
-    return period;
+    label = period;
+  } else {
+    const [year, monthNumber] = period.split('-');
+    const month = monthNames.get(monthNumber)?.long ?? 'Unknown';
+    label = `${month} ${year}`;
   }
 
-  //Month handling
-  const [year, monthNumber] = period.split('-');
-  const month = monthNames.get(monthNumber)?.long ?? 'Unknown';
-  return `${month} ${year}`;
+  return `${bookCount} books in ${label}`;
 }

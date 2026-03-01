@@ -30,6 +30,7 @@ export default async function TheNumbers() {
                 <th className={styles.numberStat}>Average Days</th>
                 <th className={styles.numberStat}>Minimum Days</th>
                 <th className={styles.numberStat}>Maximum Days</th>
+                <th className={styles.numberStat}>Repeats</th>
               </tr>
             </thead>
             <tbody>
@@ -61,6 +62,12 @@ export default async function TheNumbers() {
                         data-column-title="Maximum Days"
                       >
                         {row.maxDays}
+                      </td>
+                      <td
+                        className={styles.numberStat}
+                        data-column-title="Repeats"
+                      >
+                        {row.repeats}
                       </td>
                     </tr>
                   );

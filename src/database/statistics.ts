@@ -2,7 +2,7 @@ import db from './db';
 import getStoredProceedure from './storedProceedures';
 
 import { HistoryDetailed } from '@/types/History';
-import { RawBookHistoryRow } from '@/types/Stats';
+import { PerYearCalcData, RawBookHistoryRow } from '@/types/Stats';
 import { toHistoryDetailedViewModel } from '@/database/mappers/history';
 
 import expandMonths from '@/database/utils/expandMonths';
@@ -65,9 +65,15 @@ export async function getBookHistoryYearStats() {
   const query = getStoredProceedure('stats_GetRawBookHistoryRows');
   const rows = db.prepare(query).all() as RawBookHistoryRow[];
 
-  const perYear: Record<string, { days: number; bookCount: number }[]> = {};
+  const perYear: Record<string, PerYearCalcData[]> = {};
+  const seenBooks = new Set<number>();
 
   for (const row of rows) {
+    const isRepeat = seenBooks.has(row.BookId);
+    if (!isRepeat) {
+      seenBooks.add(row.BookId);
+    }
+
     const start = new Date(row.StartDate);
     const end = row.EndDate ? new Date(row.EndDate) : new Date();
     const years = expandYears(start, end);
@@ -84,7 +90,6 @@ export async function getBookHistoryYearStats() {
       continue;
     }
 
-    // Allocate whole books across years based on days
     const allocations = allocateWholeBooks(yearDurations, row.BookCount);
 
     for (const a of allocations) {
@@ -96,7 +101,8 @@ export async function getBookHistoryYearStats() {
 
       (perYear[a.key] ??= []).push({
         days: yd.days,
-        bookCount: a.value
+        bookCount: a.value,
+        repeatBookCount: isRepeat ? a.value : 0
       });
     }
   }

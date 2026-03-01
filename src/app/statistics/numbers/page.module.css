@@ -3,6 +3,7 @@
   border-collapse: collapse;
   height: fit-content; /* Required to allow div's in td to height: 100% */
   cursor: default;
+  width: 100%;
 }
 .table th,
 .table td {
@@ -26,6 +27,7 @@
 
 .year {
   font-weight: bold;
+  text-align: center;
 }
 
 .total {

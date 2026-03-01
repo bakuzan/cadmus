@@ -103,7 +103,7 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
                     (props.monthCounts.get(`${year}-${monthNumber}`)?.length ??
                       0) / props.maxMonthCount;
 
-                  const label = `${monthNames.get(monthNumber)!.long} ${year}`;
+                  const label = `${monthNames.get(monthNumber)!.short} ${year}`;
                   const month = `${year}-${monthNumber}`;
                   const ids = props.monthCounts.get(month);
                   const count = ids?.length ?? 0;
@@ -128,7 +128,7 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
       </table>
       {detail && (
         <StatsMonthCountsDetail
-          label={getLabelForPeriodString(detail.period)}
+          label={getLabelForPeriodString(detail.period, detail.bookCount)}
           history={detail.history}
         />
       )}

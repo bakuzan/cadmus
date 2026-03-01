@@ -17,7 +17,7 @@ export default function StatsMonthCountsDetail(
   return (
     <section className={styles.detailSection}>
       <header>
-        <h3>Read records for {props.label}</h3>
+        <h3>{props.label}</h3>
       </header>
       <div className={styles.container}>
         <BookHistoryTable

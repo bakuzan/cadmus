@@ -42,8 +42,12 @@ export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
 
   return (
     <>
-      <SearchBox value={searchString} onChange={(v) => setSearchString(v)} />
-      <table className={styles.table}>
+      <SearchBox
+        key="search"
+        value={searchString}
+        onChange={(v) => setSearchString(v)}
+      />
+      <table key="table" className={styles.table}>
         <thead>
           <tr>
             <th></th>
@@ -57,9 +61,9 @@ export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
             const isExpanded = expanded.get(x.bookId) ?? false;
 
             return (
-              <>
+              <React.Fragment key={x.bookId}>
                 <tr
-                  key={x.bookId}
+                  key={`${x.bookId}-core`}
                   className={isExpanded ? styles.expandedRow : ''}
                 >
                   <td>
@@ -89,7 +93,7 @@ export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
                     <td colSpan={2}></td>
                     <td colSpan={2} data-column-title="Repeat History">
                       <div className={styles.dateBlocks}>
-                        {x.entries.map((e, i) => (
+                        {x.entries.map((e) => (
                           <DateBlock
                             key={e.start}
                             startDate={e.start}
@@ -100,7 +104,7 @@ export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
                     </td>
                   </tr>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </tbody>

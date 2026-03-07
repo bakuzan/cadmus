@@ -27,7 +27,7 @@
     border: none;
     border-bottom: 1px solid var(--table-cell-border-colour);
     position: relative;
-    padding-left: 40%;
+    padding-left: 40% !important;
   }
 
   td:before {

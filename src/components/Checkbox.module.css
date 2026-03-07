@@ -1,0 +1,28 @@
+.checkbox {
+  display: flex;
+  align-items: center;
+  padding: 2px 5px;
+  border: 1px dashed;
+  cursor: pointer;
+}
+.checked {
+  border-color: var(--primary-background-colour);
+}
+
+.label {
+  margin-left: 5px;
+}
+
+.icon {
+  font-size: 1.25rem;
+}
+.checked .icon {
+  color: var(--primary-background-colour);
+}
+
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}

@@ -9,6 +9,7 @@ import useToast from '@/hooks/useToast';
 import getLabelForPeriodString from '@/utils/getLabelForPeriodString';
 
 import styles from '@/components/StatsMonthCountsTable.module.css';
+import Checkbox from './Checkbox';
 
 interface StatsMonthCountsTable {
   years: number[];
@@ -20,8 +21,13 @@ const YEAR_DISPLAY_LIMIT = 5;
 
 export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
   const [yearOffset, setYearOffset] = useState(0);
+  const [unrestrictView, setUnrestrictView] = useState(false);
   const [detail, setDetail] = useState<BookHistoryForPeriod | null>(null);
   const toast = useToast();
+
+  const years = unrestrictView
+    ? props.years
+    : props.years.slice(yearOffset, yearOffset + YEAR_DISPLAY_LIMIT);
 
   async function onCellClick(period: string, historyIds: number[]) {
     try {
@@ -44,6 +50,14 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.actions}>
+        <Checkbox
+          name="unrestrictedView"
+          label="Unrestricted View"
+          value={unrestrictView}
+          onChange={() => setUnrestrictView((p) => !p)}
+        />
+      </div>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -52,7 +66,7 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
                 <button
                   className={styles.headerButton}
                   title="Move the view forwards years"
-                  disabled={yearOffset === 0}
+                  disabled={unrestrictView || yearOffset === 0}
                   onClick={() => setYearOffset((p) => p - 1)}
                 >
                   ▲
@@ -61,6 +75,7 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
                   className={styles.headerButton}
                   title="Move the view backwards years"
                   disabled={
+                    unrestrictView ||
                     yearOffset === props.years.length - YEAR_DISPLAY_LIMIT
                   }
                   onClick={() => setYearOffset((p) => p + 1)}
@@ -75,55 +90,53 @@ export default function StatsMonthCountsTable(props: StatsMonthCountsTable) {
           </tr>
         </thead>
         <tbody>
-          {props.years
-            .slice(yearOffset, yearOffset + YEAR_DISPLAY_LIMIT)
-            .map((year) => (
-              <tr key={year}>
-                <th>
-                  <button
-                    type="button"
-                    className={styles.headerButton}
-                    onClick={() => {
-                      const yearIds = Array.from(monthNames.keys()).reduce(
-                        (p, month) => [
-                          ...p,
-                          ...(props.monthCounts.get(`${year}-${month}`) ?? [])
-                        ],
-                        [] as number[]
-                      );
+          {years.map((year) => (
+            <tr key={year}>
+              <th>
+                <button
+                  type="button"
+                  className={styles.headerButton}
+                  onClick={() => {
+                    const yearIds = Array.from(monthNames.keys()).reduce(
+                      (p, month) => [
+                        ...p,
+                        ...(props.monthCounts.get(`${year}-${month}`) ?? [])
+                      ],
+                      [] as number[]
+                    );
 
-                      onCellClick(`${year}`, yearIds ?? []);
-                    }}
-                  >
-                    {year}
-                  </button>
-                </th>
-                {Array.from(monthNames.keys()).map((monthNumber) => {
-                  const ratio =
-                    (props.monthCounts.get(`${year}-${monthNumber}`)?.length ??
-                      0) / props.maxMonthCount;
+                    onCellClick(`${year}`, yearIds ?? []);
+                  }}
+                >
+                  {year}
+                </button>
+              </th>
+              {Array.from(monthNames.keys()).map((monthNumber) => {
+                const ratio =
+                  (props.monthCounts.get(`${year}-${monthNumber}`)?.length ??
+                    0) / props.maxMonthCount;
 
-                  const label = `${monthNames.get(monthNumber)!.short} ${year}`;
-                  const month = `${year}-${monthNumber}`;
-                  const ids = props.monthCounts.get(month);
-                  const count = ids?.length ?? 0;
-                  const tooltipText = `${count} in ${label}`;
+                const label = `${monthNames.get(monthNumber)!.short} ${year}`;
+                const month = `${year}-${monthNumber}`;
+                const ids = props.monthCounts.get(month);
+                const count = ids?.length ?? 0;
+                const tooltipText = `${count} in ${label}`;
 
-                  return (
-                    <td key={monthNumber} data-tooltip={tooltipText}>
-                      <button
-                        type="button"
-                        className={styles.cellButton}
-                        disabled={count === 0}
-                        onClick={() => onCellClick(month, ids ?? [])}
-                      >
-                        <div style={{ opacity: ratio }}></div>
-                      </button>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
+                return (
+                  <td key={monthNumber} data-tooltip={tooltipText}>
+                    <button
+                      type="button"
+                      className={styles.cellButton}
+                      disabled={count === 0}
+                      onClick={() => onCellClick(month, ids ?? [])}
+                    >
+                      <div style={{ opacity: ratio }}></div>
+                    </button>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
         </tbody>
       </table>
       {detail && (

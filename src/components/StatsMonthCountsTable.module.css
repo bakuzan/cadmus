@@ -2,6 +2,13 @@
   padding: 10px 0;
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  margin: 5px 0;
+}
+
 .table {
   width: 100%;
 }

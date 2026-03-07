@@ -31,5 +31,8 @@
 }
 
 .childrenWrapper {
-  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  min-height: calc(100vh - 2rem - var(--navbar-height));
 }

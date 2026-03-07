@@ -1,5 +1,6 @@
-.grid {
-  margin: 1rem 0;
-  display: grid;
-  gap: 15px;
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-evenly;
 }

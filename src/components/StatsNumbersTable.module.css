@@ -4,11 +4,13 @@
   height: fit-content; /* Required to allow div's in td to height: 100% */
   cursor: default;
   width: 100%;
+  table-layout: fixed;
 }
 .table th,
 .table td {
   padding: 0.25rem;
 }
+
 .table tbody tr {
   border-top: 1px dotted;
   border-bottom: 1px dotted;

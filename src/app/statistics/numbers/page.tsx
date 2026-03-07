@@ -19,7 +19,7 @@ export default async function TheNumbers() {
   return (
     <>
       <h1>The Numbers</h1>
-      <div className={styles.grid}>
+      <div className={styles.container}>
         <StatsNumbersTable
           data={yearStats}
           columns={[

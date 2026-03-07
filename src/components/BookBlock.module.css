@@ -1,0 +1,15 @@
+.dataColumn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: fit-content;
+}
+
+.metadata {
+  font-size: 0.8em;
+  color: var(--muted-colour);
+  display: flex;
+}
+.metadata > * {
+  margin-right: 25px;
+}

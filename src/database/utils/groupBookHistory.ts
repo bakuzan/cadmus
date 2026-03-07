@@ -1,8 +1,8 @@
-import { HistoryDetailed } from '@/types/History';
+import { HistoryDetailedWithLibraryId } from '@/types/History';
 import { GroupedBookHistory } from '@/types/Stats';
 
 export default function groupBookHistory(
-  rows: HistoryDetailed[]
+  rows: HistoryDetailedWithLibraryId[]
 ): GroupedBookHistory[] {
   const map = new Map<number, GroupedBookHistory>();
 
@@ -16,13 +16,12 @@ export default function groupBookHistory(
         bookId: row.BookId,
         title: row.Title,
         author: row.Author,
+        isInLibrary: !!row.LibraryId,
         seriesName: row.SeriesName ?? null,
-        repeatCount: 0,
         entries: [{ start, end }],
         latestRepeatDate: end ?? start
       });
     } else {
-      existing.repeatCount++;
       existing.entries.push({ start, end });
 
       const candidateDate = end ?? start;

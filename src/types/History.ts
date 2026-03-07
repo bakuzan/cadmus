@@ -18,6 +18,10 @@ export interface HistoryDetailed {
   BookCount: number;
 }
 
+export interface HistoryDetailedWithLibraryId extends HistoryDetailed {
+  LibraryId?: number;
+}
+
 // View model
 export interface HistoryViewModel {
   id: number;

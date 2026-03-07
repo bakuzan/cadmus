@@ -6,7 +6,8 @@ SELECT
     
     B.Title,
     B.Author,
-    S.Name AS SeriesName
+    S.Name AS SeriesName,
+    L.Id LibraryId
 FROM History H
 JOIN 
     (
@@ -18,4 +19,5 @@ JOIN
 JOIN Books B ON H.BookId = B.Id
 LEFT JOIN BooksSeries BS ON B.Id = BS.BookId
 LEFT JOIN Series S ON BS.SeriesId = S.Id
+LEFT JOIN Library L ON B.Id = L.BookId
 ORDER BY H.StartDate DESC;

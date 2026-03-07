@@ -1,15 +1,16 @@
 'use client';
 import React, { useState } from 'react';
-import Link from 'next/link';
 
 import { HistoryDetailedViewModel } from '@/types/History';
 import { ImageDisplayMode } from '@/constants/imageDisplayMode';
 import ImageWithFallback from '@/components/ImageWithFallback';
+import BookBlock from '@/components/BookBlock';
 
 import { formatDateForDisplay, getDateYear } from '@/utils/date';
 import getDifferenceBetweenDates from '@/utils/getDateDifference';
 
 import styles from './BookHistoryTable.module.css';
+import DateBlock from './DateBlock';
 
 interface BookHistoryTableProps {
   history: HistoryDetailedViewModel[];
@@ -107,28 +108,10 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
                     )}
                   </td>
                   <td data-column-title="Book">
-                    <div className={styles.dataColumn}>
-                      <Link href={`/books/${x.bookId}`}>{x.title}</Link>
-                      <div className={styles.metadata}>
-                        <div className="muted">{x.author}</div>
-                        {x.seriesName && (
-                          <div className="muted">({x.seriesName})</div>
-                        )}
-                      </div>
-                    </div>
+                    <BookBlock book={x} />
                   </td>
                   <td data-column-title="Dates">
-                    <div className={styles.dates}>
-                      <div>{formatDateForDisplay(x.startDate)}</div>
-                      <div title={daysLabel}>
-                        <span aria-hidden>&nbsp;–&nbsp;</span>
-                      </div>
-                      <div>
-                        {x.endDate
-                          ? formatDateForDisplay(x.endDate)
-                          : '?? ??? ????'}
-                      </div>
-                    </div>
+                    <DateBlock startDate={x.startDate} endDate={x.endDate} />
                   </td>
                 </tr>
               )}

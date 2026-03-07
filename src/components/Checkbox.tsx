@@ -1,3 +1,5 @@
+'use client';
+
 import concat from '@/utils/concat';
 
 import styles from './Checkbox.module.css';

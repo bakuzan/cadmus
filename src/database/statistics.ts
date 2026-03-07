@@ -1,7 +1,7 @@
 import db from './db';
 import getStoredProceedure from './storedProceedures';
 
-import { HistoryDetailed } from '@/types/History';
+import { HistoryDetailed, HistoryDetailedWithLibraryId } from '@/types/History';
 import { PerYearCalcData, RawBookHistoryRow } from '@/types/Stats';
 import { toHistoryDetailedViewModel } from '@/database/mappers/history';
 
@@ -114,6 +114,6 @@ export async function getBookHistoryYearStats() {
 
 export async function getBookRepeats() {
   const query = getStoredProceedure('stats_GetBookHistoryRepeats');
-  const items = db.prepare(query).all() as HistoryDetailed[];
+  const items = db.prepare(query).all() as HistoryDetailedWithLibraryId[];
   return groupBookHistory(items);
 }

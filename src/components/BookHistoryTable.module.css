@@ -45,28 +45,6 @@
   font-size: 0.8rem;
 }
 
-.dataColumn {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: fit-content;
-}
-
-.metadata {
-  font-size: 0.8em;
-  color: var(--muted-colour);
-  display: flex;
-}
-.metadata > * {
-  margin-right: 25px;
-}
-
-.dates {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
-
 /* Responsive tweaks */
 @media only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {

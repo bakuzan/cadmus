@@ -9,7 +9,8 @@ type StoredProceedures =
   | 'GetFullHistory'
   // Stat queries
   | 'stats_GetRawBookHistoryRows'
-  | 'stats_GetBookHistoryForPeriod';
+  | 'stats_GetBookHistoryForPeriod'
+  | 'stats_GetBookHistoryRepeats';
 
 const proceedures = {} as Record<StoredProceedures, string>;
 const targetFolder = path.join(process.cwd(), 'src/database/storedProceedures');

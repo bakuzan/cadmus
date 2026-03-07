@@ -16,8 +16,6 @@ export const metadata = {
 export default async function TheNumbers() {
   const yearStats = await getBookHistoryYearStats();
 
-  console.log(yearStats);
-
   return (
     <>
       <h1>The Numbers</h1>

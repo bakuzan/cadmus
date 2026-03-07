@@ -51,3 +51,13 @@ export type PerYearStats = {
   density: number;
   stdDev: number;
 };
+
+export type GroupedBookHistory = {
+  bookId: number;
+  title: string;
+  author: string;
+  seriesName: string | null;
+  repeatCount: number;
+  entries: { start: string; end: string | null }[];
+  latestRepeatDate: string;
+};

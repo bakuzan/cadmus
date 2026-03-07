@@ -8,9 +8,10 @@ import { toHistoryDetailedViewModel } from '@/database/mappers/history';
 import expandMonths from '@/database/utils/expandMonths';
 import getOverlapDays from '@/database/utils/getOverlapDaysInMonth';
 import allocateWholeBooks from '@/database/utils/allocateWholeBooks';
-import expandYears from './utils/expandYears';
-import getOverlapDaysInYear from './utils/getOverlapDaysInYear';
-import reduceYearStats from './utils/reduceYearStats';
+import expandYears from '@/database/utils/expandYears';
+import getOverlapDaysInYear from '@/database/utils/getOverlapDaysInYear';
+import reduceYearStats from '@/database/utils/reduceYearStats';
+import groupBookHistory from '@/database/utils/groupBookHistory';
 
 /* DATEBASE READS */
 export async function getBookHistoryMonthCounts() {
@@ -109,4 +110,10 @@ export async function getBookHistoryYearStats() {
   }
 
   return reduceYearStats(perYear);
+}
+
+export async function getBookRepeats() {
+  const query = getStoredProceedure('stats_GetBookHistoryRepeats');
+  const items = db.prepare(query).all() as HistoryDetailed[];
+  return groupBookHistory(items);
 }

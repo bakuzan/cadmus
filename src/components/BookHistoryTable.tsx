@@ -2,25 +2,27 @@
 import React, { useState } from 'react';
 
 import { HistoryDetailedViewModel } from '@/types/History';
+import { PerYearStats } from '@/types/Stats';
+
 import { ImageDisplayMode } from '@/constants/imageDisplayMode';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import BookBlock from '@/components/BookBlock';
+import DateBlock from '@/components/DateBlock';
 
-import { formatDateForDisplay, getDateYear } from '@/utils/date';
-import getDifferenceBetweenDates from '@/utils/getDateDifference';
+import { getDateYear } from '@/utils/date';
 
 import styles from './BookHistoryTable.module.css';
-import DateBlock from './DateBlock';
 
 interface BookHistoryTableProps {
   history: HistoryDetailedViewModel[];
-  includeYearRows: boolean;
+  yearStats?: Record<string, PerYearStats>;
   imageDisplayMode: ImageDisplayMode;
 }
 
 export default function BookHistoryTable(props: BookHistoryTableProps) {
   const [collapsed, setCollapsed] = useState(new Map<number, boolean>([]));
-  const { includeYearRows, imageDisplayMode } = props;
+  const { yearStats, imageDisplayMode } = props;
+  const includeYearRows = yearStats !== undefined;
   const isNotImageDisplayNone = imageDisplayMode !== ImageDisplayMode.NONE;
   const isImageDisplayAlways = imageDisplayMode === ImageDisplayMode.ALL;
 
@@ -61,11 +63,8 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
               {includeYearRows &&
                 isNewYear &&
                 (() => {
-                  const bookCount = arr.reduce(
-                    (p, c) =>
-                      getDateYear(c.startDate) === year ? p + c.bookCount : p,
-                    0
-                  );
+                  const perYearStats = yearStats[year];
+                  const bookCount = perYearStats.total;
                   const s = bookCount === 1 ? '' : 's';
                   const label = `${bookCount} book${s} read`;
 

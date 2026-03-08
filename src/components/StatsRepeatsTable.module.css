@@ -21,6 +21,12 @@
 
 /* Columns */
 
+.sortIcon {
+  display: inline-block;
+  min-width: 10px;
+  margin-left: 5px;
+}
+
 .title {
   text-align: left;
 }
@@ -29,14 +35,23 @@
   text-align: right;
 }
 
+.repeatsButtonHeader,
 .repeatsButton {
   height: 100%;
   min-width: 25px;
   box-shadow: none !important;
 }
+.repeatsButtonHeader:focus,
+.repeatsButtonHeader:hover,
 .repeatsButton:focus,
 .repeatsButton:hover {
   text-decoration: underline;
+}
+
+.repeatsButtonHeader {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: -15px;
 }
 
 .dateBlocks {

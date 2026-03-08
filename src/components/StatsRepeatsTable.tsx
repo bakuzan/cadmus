@@ -7,30 +7,59 @@ import InLibraryIcon from '@/components/InLibraryIcon';
 import BookBlock from '@/components/BookBlock';
 import SearchBox from '@/components/SearchBox';
 import DateBlock from '@/components/DateBlock';
+import { makeSorter, Sort } from '@/utils/compareValues';
 
 import styles from './StatsRepeatsTable.module.css';
+import { filterBooks } from '@/utils/filterBooks';
 
 interface StatsRepeatsTableProps {
   repeats: GroupedBookHistory[];
 }
 
-function filterBooks(searchString: string) {
-  const terms = searchString.toLowerCase().trim().split(' ');
+interface HeaderSortButtonProps {
+  label: string;
+  sortKey: keyof GroupedBookHistory;
+  sort: Sort<GroupedBookHistory>;
+  onClick: (sort: Sort<GroupedBookHistory>) => void;
+}
 
-  return function (value: GroupedBookHistory) {
-    return terms.every(
-      (t) =>
-        value.title.toLowerCase().includes(t) ||
-        value.author.toLowerCase().includes(t) ||
-        value.seriesName?.toLowerCase().includes(t)
-    );
-  };
+function HeaderSortButton(props: HeaderSortButtonProps) {
+  const isCurrentSortChoice = props.sortKey === props.sort.key;
+  const isAsc = props.sort.direction === 'asc';
+
+  return (
+    <button
+      className={styles.repeatsButtonHeader}
+      type="button"
+      onClick={() =>
+        props.onClick({
+          key: props.sortKey,
+          direction: isCurrentSortChoice
+            ? isAsc
+              ? 'desc'
+              : 'asc'
+            : props.sort.direction
+        })
+      }
+    >
+      {props.label}
+      <div className={styles.sortIcon}>
+        {isCurrentSortChoice ? (isAsc ? '▲' : '▼') : ''}
+      </div>
+    </button>
+  );
 }
 
 export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
   const [expanded, setExpanded] = useState(new Map<number, boolean>());
+  const [sort, setSort] = useState<Sort<GroupedBookHistory>>({
+    key: 'latestRepeatDate',
+    direction: 'desc'
+  });
   const [searchString, setSearchString] = useState('');
-  const repeats = props.repeats.filter(filterBooks(searchString));
+  const repeats = props.repeats
+    .filter(filterBooks(searchString))
+    .sort(makeSorter(sort));
 
   function toggleRow(bookId: number) {
     setExpanded((prev) => {
@@ -51,9 +80,30 @@ export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
         <thead>
           <tr>
             <th></th>
-            <th className={styles.title}>Book</th>
-            <th className={styles.numberStat}>Repeats</th>
-            <th className={styles.numberStat}>Latest Repeat Date</th>
+            <th className={styles.title}>
+              <HeaderSortButton
+                label="Book"
+                sortKey="title"
+                sort={sort}
+                onClick={setSort}
+              />
+            </th>
+            <th className={styles.numberStat}>
+              <HeaderSortButton
+                label="Repeats"
+                sortKey="repeatsCount"
+                sort={sort}
+                onClick={setSort}
+              />
+            </th>
+            <th className={styles.numberStat}>
+              <HeaderSortButton
+                label="Latest Repeat Date"
+                sortKey="latestRepeatDate"
+                sort={sort}
+                onClick={setSort}
+              />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -78,7 +128,7 @@ export default function StatsRepeatsTable(props: StatsRepeatsTableProps) {
                       type="button"
                       onClick={() => toggleRow(x.bookId)}
                     >
-                      {x.entries.length - 1}
+                      {x.repeatsCount}
                     </button>
                   </td>
                   <td

@@ -59,5 +59,6 @@ export type GroupedBookHistory = {
   isInLibrary: boolean;
   seriesName: string | null;
   entries: { start: string; end: string | null }[];
+  repeatsCount: number;
   latestRepeatDate: string;
 };

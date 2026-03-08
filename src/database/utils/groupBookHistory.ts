@@ -19,10 +19,12 @@ export default function groupBookHistory(
         isInLibrary: !!row.LibraryId,
         seriesName: row.SeriesName ?? null,
         entries: [{ start, end }],
+        repeatsCount: 0,
         latestRepeatDate: end ?? start
       });
     } else {
       existing.entries.push({ start, end });
+      existing.repeatsCount++;
 
       const candidateDate = end ?? start;
       if (candidateDate > existing.latestRepeatDate) {

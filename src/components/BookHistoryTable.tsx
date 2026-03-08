@@ -37,7 +37,7 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
       <thead>
         <tr>
           <th></th>
-          <th>Book</th>
+          <th className={styles.leftAlign}>Book</th>
           <th>Dates</th>
         </tr>
       </thead>
@@ -47,9 +47,6 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
           const prevYear = prevItem ? getDateYear(prevItem.startDate) : null;
           const year = getDateYear(x.startDate);
           const isNewYear = prevYear !== year;
-
-          const diff = getDifferenceBetweenDates(x.startDate, x.endDate);
-          const daysLabel = `${diff.details} ${diff.text}`;
 
           const showImage =
             isNotImageDisplayNone && (isImageDisplayAlways || !x.endDate);

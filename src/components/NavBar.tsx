@@ -18,7 +18,7 @@ export default function NavBar() {
         Series
       </Link>
       <div className="flex-spacer"></div>
-      <Link className={styles.navbar__link} href={'/statistics'}>
+      <Link className={styles.navbar__link} href={'/statistics/history'}>
         Statistics
       </Link>
     </nav>

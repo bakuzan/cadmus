@@ -22,7 +22,7 @@
 
   box-shadow: none;
 }
-.table button:disabled {
+.table tbody button:disabled {
   background: none !important;
   cursor: default;
 }
@@ -40,9 +40,9 @@
   padding: 5px;
   border: 1px solid transparent;
 }
-.headerButton:active,
-.headerButton:focus,
-.headerButton:hover {
+.headerButton:not([disabled]):active,
+.headerButton:not([disabled]):focus,
+.headerButton:not([disabled]):hover {
   background-color: var(--history-count-header-cell-background-colour);
   border-color: var(--table-border-colour);
 }

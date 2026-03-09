@@ -22,7 +22,6 @@ export default function StatsMonthCountsDetail(
       <div className={styles.container}>
         <BookHistoryTable
           history={props.history}
-          includeYearRows={false}
           imageDisplayMode={ImageDisplayMode.ALL}
         />
       </div>

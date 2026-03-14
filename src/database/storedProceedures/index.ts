@@ -7,6 +7,8 @@ type StoredProceedures =
   | 'GetBookById'
   | 'GetBooksBySeriesId'
   | 'GetFullHistory'
+  // Read List queries
+  | 'readlist_GetHistory'
   // Stat queries
   | 'stats_GetRawBookHistoryRows'
   | 'stats_GetBookHistoryForPeriod'

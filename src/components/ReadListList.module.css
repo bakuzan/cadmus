@@ -1,0 +1,12 @@
+.listItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px;
+}
+
+.listItem :global(.dates) {
+  color: var(--muted-colour);
+  font-size: 0.8rem;
+  padding: 2px 0;
+}

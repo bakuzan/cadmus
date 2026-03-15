@@ -1,17 +1,18 @@
 import db from './db';
 import getStoredProceedure from './storedProceedures';
 
-import { toViewModel } from './mappers';
-
 import { ReadListHistory } from '@/types/ReadList';
-import computeCyclePosition from './utils/computeCyclePosition';
-import generateFutureCycle from './utils/generateFutureCycle';
 
-// TODO : Move to db in a settings table configurable from UI
-const REPEAT_CYCLE = 4; // 4th book must be re-read
+import { getSettings } from '@/database/settings';
+import { toViewModel } from '@/database/mappers';
+import computeCyclePosition from '@/database/utils/computeCyclePosition';
+import generateFutureCycle from '@/database/utils/generateFutureCycle';
 
 /* DATEBASE READS */
 export async function getReadList() {
+  const settings = getSettings();
+  const REPEAT_CYCLE = settings.readList_RepeatFrequency;
+
   const queryGetHistory = getStoredProceedure('readlist_GetHistory');
   const oldRows = db
     .prepare(queryGetHistory)
@@ -33,5 +34,5 @@ export async function getReadList() {
   const last = oldRows.map(toViewModel);
   const next = futureRows.map(toViewModel).toReversed();
 
-  return { last, next };
+  return { last, next, cyclePos };
 }

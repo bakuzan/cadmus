@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS "Settings" (
+	"Id"	        	        INTEGER NOT NULL UNIQUE,
+	"ReadList_RepeatFrequency"	INTEGER NOT NULL,
+	PRIMARY KEY("Id" AUTOINCREMENT)
+);

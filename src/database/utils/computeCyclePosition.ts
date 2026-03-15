@@ -4,23 +4,15 @@ export default function computeCyclePosition(
   rows: ReadListHistory[],
   cycle: number
 ) {
-  let countSinceReread = 0;
+  let distance = 0;
 
-  for (let i = rows.length - 1; i >= 0; i--) {
-    const row = rows[i];
-    const isReread = row.ReadNumber > 1;
-
-    if (isReread) {
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].ReadNumber > 1) {
       break;
     }
 
-    countSinceReread++;
-
-    // We never care about more than cycle-1 new reads
-    if (countSinceReread === cycle - 1) {
-      break;
-    }
+    distance++;
   }
 
-  return countSinceReread;
+  return distance >= cycle ? cycle - 1 : distance;
 }

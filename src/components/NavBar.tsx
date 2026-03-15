@@ -24,6 +24,9 @@ export default function NavBar() {
       <Link className={styles.navbar__link} href={'/statistics/history'}>
         Statistics
       </Link>
+      <Link className={styles.navbar__link} href={'/settings'}>
+        Settings
+      </Link>
     </nav>
   );
 }

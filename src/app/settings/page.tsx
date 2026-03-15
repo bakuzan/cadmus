@@ -4,6 +4,8 @@ import SettingsForm from '@/components/SettingsForm';
 
 import getPageTitle from '@/utils/getPageTitle';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: getPageTitle('Settings')
 };

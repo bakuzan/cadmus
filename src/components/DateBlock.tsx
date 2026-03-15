@@ -12,17 +12,19 @@ interface DateBlockProps {
   endDate: string | null;
 }
 
+const PLACEHOLDER = '?? ??? ????';
+
 export default function DateBlock({ startDate, endDate }: DateBlockProps) {
   const diff = getDifferenceBetweenDates(startDate, endDate);
-  const daysLabel = `${diff.details} ${diff.text}`;
+  const daysLabel = startDate ? `${diff.details} ${diff.text}` : undefined;
 
   return (
     <div className={concat('dates', styles.dates)}>
-      <div>{formatDateForDisplay(startDate)}</div>
+      <div>{startDate ? formatDateForDisplay(startDate) : PLACEHOLDER}</div>
       <div title={daysLabel}>
         <span aria-hidden>&nbsp;–&nbsp;</span>
       </div>
-      <div>{endDate ? formatDateForDisplay(endDate) : '?? ??? ????'}</div>
+      <div>{endDate ? formatDateForDisplay(endDate) : PLACEHOLDER}</div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ type StoredProceedures =
   | 'GetFullHistory'
   // Read List queries
   | 'readlist_GetHistory'
+  | 'readlist_GetUnreadHistory'
   // Stat queries
   | 'stats_GetRawBookHistoryRows'
   | 'stats_GetBookHistoryForPeriod'

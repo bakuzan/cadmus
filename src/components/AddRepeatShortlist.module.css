@@ -1,0 +1,12 @@
+.form {
+  display: flex;
+  height: 100%;
+  width: -webkit-fill-available;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: -webkit-fill-available;
+}

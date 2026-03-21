@@ -16,6 +16,7 @@ export interface HistoryDetailed {
   Author: string;
   SeriesName: string | null;
   BookCount: number;
+  RepeatShortlistId: number;
 }
 
 export interface HistoryDetailedWithLibraryId extends HistoryDetailed {
@@ -40,6 +41,7 @@ export interface HistoryDetailedViewModel {
   author: string;
   seriesName: string | null;
   bookCount: number;
+  inRepeatShortlist: boolean;
 }
 
 // Requests

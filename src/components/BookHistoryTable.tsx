@@ -8,6 +8,7 @@ import { ImageDisplayMode } from '@/constants/imageDisplayMode';
 import ImageWithFallback from '@/components/ImageWithFallback';
 import BookBlock from '@/components/BookBlock';
 import DateBlock from '@/components/DateBlock';
+import AddRepeatShortlist from '@/components/AddRepeatShortlist';
 
 import { getDateYear } from '@/utils/date';
 
@@ -41,6 +42,7 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
           <th></th>
           <th className={styles.leftAlign}>Book</th>
           <th>Dates</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -70,7 +72,7 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
 
                   return (
                     <tr className={styles.yearRow}>
-                      <th colSpan={3}>
+                      <th colSpan={4}>
                         <button
                           className={styles.yearHeader}
                           onClick={() => toggleYear(year)}
@@ -108,6 +110,13 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
                   </td>
                   <td data-column-title="Dates">
                     <DateBlock startDate={x.startDate} endDate={x.endDate} />
+                  </td>
+                  <td>
+                    <AddRepeatShortlist
+                      bookId={x.bookId}
+                      bookInShortlist={x.inRepeatShortlist}
+                      hideIfInShortlist={true}
+                    />
                   </td>
                 </tr>
               )}

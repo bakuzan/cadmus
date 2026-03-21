@@ -17,3 +17,6 @@ CREATE INDEX IF NOT EXISTS "BooksSeries_SeriesId_Index" ON "BooksSeries" ("Serie
 
 CREATE UNIQUE INDEX IF NOT EXISTS "BooksMeta_Unique_Columns" ON "BooksMeta" ("BookId");
 CREATE INDEX IF NOT EXISTS "BooksMeta_BookId_Index" ON "BooksMeta" ("BookId");
+
+CREATE UNIQUE INDEX IF NOT EXISTS "RepeatShortlist_Unique_Columns" ON "RepeatShortlist" ("BookId");
+CREATE INDEX IF NOT EXISTS "RepeatShortlist_Position_Index" ON "RepeatShortlist" ("Position");

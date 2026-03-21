@@ -9,12 +9,14 @@ SELECT
   , B.Author
   , S.Name SeriesName
   , COALESCE(M.BookCount, 1) AS "BookCount"
+  , RS.Id AS "RepeatShortlistId"
 FROM
     History H
     JOIN Books B ON H.BookId = B.Id
     LEFT JOIN BooksSeries BS ON B.Id = BS.BookId
     LEFT JOIN Series S ON BS.SeriesId = S.Id
     LEFT JOIN BooksMeta M ON B.Id = M.BookId
+    LEFT JOIN RepeatShortlist RS ON B.Id = RS.BookId
 WHERE 
     H.Id IN (:historyIds)
 ORDER BY

@@ -23,7 +23,12 @@ export default async function ReadList() {
           <hr />
           <ReadListList items={readlist.last} />
         </div>
-        <div></div>
+        <section>
+          <header>
+            <h2>Repeat Shortlist</h2>
+          </header>
+          <ReadListList items={readlist.shortlist} />
+        </section>
       </div>
     </>
   );

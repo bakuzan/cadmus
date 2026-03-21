@@ -17,6 +17,8 @@ export function toHistoryViewModel(history: History): HistoryViewModel {
 export function toHistoryDetailedViewModel(
   history: HistoryDetailed
 ): HistoryDetailedViewModel {
+  const inRepeatShortlist = history.RepeatShortlistId !== null;
+
   return {
     historyId: history.HistoryId,
     startDate: history.StartDate,
@@ -26,6 +28,7 @@ export function toHistoryDetailedViewModel(
     title: history.Title,
     author: history.Author,
     seriesName: history.SeriesName,
-    bookCount: history.BookCount
+    bookCount: history.BookCount,
+    inRepeatShortlist
   };
 }

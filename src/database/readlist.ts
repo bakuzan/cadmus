@@ -9,6 +9,11 @@ import computeCyclePosition from '@/database/utils/computeCyclePosition';
 import generateFutureCycle from '@/database/utils/generateFutureCycle';
 
 /* DATEBASE READS */
+async function getRawRepeatShortlist() {
+  const query = getStoredProceedure('readlist_GetRepeatShortlist');
+  return db.prepare(query).all() as ReadListHistory[];
+}
+
 export async function getReadList() {
   const settings = getSettings();
   const REPEAT_CYCLE = settings.readList_RepeatFrequency;
@@ -23,16 +28,34 @@ export async function getReadList() {
     .prepare(queryUnread)
     .all({ limit: REPEAT_CYCLE }) as ReadListHistory[];
 
+  const rawShortlist = await getRawRepeatShortlist();
+
   const cyclePos = computeCyclePosition(oldRows, REPEAT_CYCLE);
   const futureRows = generateFutureCycle(
     cyclePos,
     REPEAT_CYCLE,
     unreadRows,
-    [] as Array<ReadListHistory> // TODO source reread books from shortlist (TBI)
+    rawShortlist
   );
 
   const last = oldRows.map(toViewModel);
   const next = futureRows.map(toViewModel).toReversed();
+  const shortlist = rawShortlist.map(toViewModel);
 
-  return { last, next, cyclePos };
+  return { last, next, shortlist, cyclePos };
+}
+
+/* DATEBASE WRITES */
+export async function toggleBookInRepeatShortlist(bookId: string) {
+  const record = db
+    .prepare('SELECT * FROM RepeatShortlist WHERE BookId = ?')
+    .get(bookId);
+
+  const sql = record
+    ? 'DELETE FROM RepeatShortlist WHERE BookId = ?'
+    : `INSERT INTO RepeatShortlist (BookId, Position)
+      VALUES (?, (SELECT COALESCE(MAX(Position), 0) + 1000 FROM RepeatShortlist))`;
+
+  const result = db.prepare(sql).run(bookId);
+  return result.changes === 1;
 }

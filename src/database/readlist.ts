@@ -40,9 +40,10 @@ export async function getReadList() {
 
   const last = oldRows.map(toViewModel);
   const next = futureRows.map(toViewModel).toReversed();
+  const unread = unreadRows.map(toViewModel);
   const shortlist = rawShortlist.map(toViewModel);
 
-  return { last, next, shortlist, cyclePos };
+  return { last, next, shortlist, unread };
 }
 
 /* DATEBASE WRITES */

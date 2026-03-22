@@ -1,15 +1,16 @@
 'use client';
+import { useState } from 'react';
 
 import onToggleRepeatShortlist from '@/actions/onToggleRepeatShortlist';
 import useToast from '@/hooks/useToast';
 
 import styles from './AddRepeatShortlist.module.css';
-import { useState } from 'react';
 
 interface AddRepeatShortlistProps {
   bookId: number;
   bookInShortlist: boolean;
   hideIfInShortlist?: boolean;
+  onSuccess?: () => void;
 }
 
 export default function AddRepeatShortlist(props: AddRepeatShortlistProps) {
@@ -27,7 +28,10 @@ export default function AddRepeatShortlist(props: AddRepeatShortlistProps) {
       name="addRepeatShortlist"
       action={(data) =>
         onToggleRepeatShortlist(data)
-          .then(() => setInShortlist((p) => !p))
+          .then(() => {
+            setInShortlist((p) => !p);
+            props.onSuccess?.();
+          })
           .catch((error) => toast('error', error.message))
       }
     >

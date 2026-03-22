@@ -1,4 +1,11 @@
 .grid {
   display: grid;
   grid-template-columns: 4fr 6fr;
+  gap: 1rem;
+}
+
+.right {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 1rem;
 }

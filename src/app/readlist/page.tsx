@@ -16,19 +16,30 @@ export default async function ReadList() {
   console.log(readlist);
   return (
     <>
-      <h1>Read List</h1>
       <div className={styles.grid}>
-        <div>
+        <section className={styles.left}>
+          <header>
+            <h2>Read Queue</h2>
+          </header>
           <ReadListList items={readlist.next} />
           <hr />
           <ReadListList items={readlist.last} />
-        </div>
-        <section>
-          <header>
-            <h2>Repeat Shortlist</h2>
-          </header>
-          <ReadListList items={readlist.shortlist} />
         </section>
+
+        <div className={styles.right}>
+          <section className={styles.top}>
+            <header>
+              <h2>Unread Books</h2>
+            </header>
+            <ReadListList items={readlist.unread} />
+          </section>
+          <section className={styles.bottom}>
+            <header>
+              <h2>Repeat Shortlist</h2>
+            </header>
+            <ReadListList items={readlist.shortlist} includeShortlistButton />
+          </section>
+        </div>
       </div>
     </>
   );

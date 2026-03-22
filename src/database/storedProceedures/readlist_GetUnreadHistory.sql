@@ -9,7 +9,8 @@ SELECT
     B.Author,
 
     S.Name  AS SeriesName,
-    0       AS ReadNumber
+    0       AS ReadNumber,
+    NULL    AS RepeatShortlistId
 FROM Books B
 LEFT JOIN History H ON H.BookId = B.Id
 LEFT JOIN BooksSeries BS ON B.Id = BS.BookId

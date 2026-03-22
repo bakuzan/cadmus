@@ -46,6 +46,23 @@ export async function getReadList() {
 }
 
 /* DATEBASE WRITES */
+export async function removeBookIfInRepeatShortlist(bookId: string) {
+  const record = db
+    .prepare('SELECT * FROM RepeatShortlist WHERE BookId = ?')
+    .get(bookId);
+
+  if (!record) {
+    // No record, counts as removed!
+    return true;
+  }
+
+  const result = db
+    .prepare('DELETE FROM RepeatShortlist WHERE BookId = ?')
+    .run(bookId);
+
+  return result.changes === 1;
+}
+
 export async function toggleBookInRepeatShortlist(bookId: string) {
   const record = db
     .prepare('SELECT * FROM RepeatShortlist WHERE BookId = ?')

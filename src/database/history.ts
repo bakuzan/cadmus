@@ -1,10 +1,11 @@
 import db from './db';
 import getStoredProceedure from './storedProceedures';
 
+import { removeBookIfInRepeatShortlist } from '@/database/readlist';
 import {
   toHistoryViewModel,
   toHistoryDetailedViewModel
-} from './mappers/history';
+} from '@/database/mappers/history';
 
 import {
   History,
@@ -37,8 +38,13 @@ export async function addReadHistory(bookId: string, startDate: string) {
     VALUES (:bookId, :startDate)`;
 
   const result = db.prepare(sql).run({ bookId, startDate });
+  const added = result.changes === 1;
 
-  return result.changes === 1;
+  if (added) {
+    await removeBookIfInRepeatShortlist(bookId);
+  }
+
+  return added;
 }
 
 export async function updateReadHistory(update: HistoryUpdateRequest) {

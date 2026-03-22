@@ -23,11 +23,13 @@ export function toBookInLibraryViewModel(
 ): BookInLibraryViewModel {
   const item = toBookViewModel(book);
   const inLibrary = book.LibraryId !== null;
+  const inRepeatShortlist = book.RepeatShortlistId !== null;
 
   return {
     ...item,
     inLibrary,
     seriesId: book.SeriesId,
-    bookCount: book.BookCount
+    bookCount: book.BookCount,
+    inRepeatShortlist
   };
 }

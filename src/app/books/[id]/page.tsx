@@ -11,12 +11,12 @@ import List from '@/components/List';
 import BookInfoTable from '@/components/BookInfoTable';
 import AddHistory from '@/components/AddHistory';
 import UpdateHistory from '@/components/UpdateHistory';
+import AddRepeatShortlist from '@/components/AddRepeatShortlist';
 
 import styles from './page.module.css';
 
 type Props = {
   params: Promise<{ id: string }>;
-  //   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -51,21 +51,22 @@ export default async function BookById(props: Props) {
           <h1>{book.title}</h1>
           <p className={styles.muted}>{book.author}</p>
         </header>
-        <form
-          className={styles.form}
-          id="library"
-          name="library"
-          action={onSubmit}
-        >
-          <input type="hidden" name="bookId" value={book.id} />
+        <div className={styles.actionBlock}>
+          <form id="library" name="library" action={onSubmit}>
+            <input type="hidden" name="bookId" value={book.id} />
 
-          <button
-            type="submit"
-            className={book.inLibrary ? 'danger' : 'primary'}
-          >
-            {book.inLibrary ? 'Remove from Library' : 'Add to Library'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className={book.inLibrary ? 'danger' : 'primary'}
+            >
+              {book.inLibrary ? 'Remove from Library' : 'Add to Library'}
+            </button>
+          </form>
+          <AddRepeatShortlist
+            bookId={book.id}
+            bookInShortlist={book.inRepeatShortlist}
+          />
+        </div>
         <div className={styles.wrapper}>
           <ImageWithFallback
             className={styles.image}
@@ -74,6 +75,7 @@ export default async function BookById(props: Props) {
             priority={false}
             width={160}
             height={245}
+            fetchPriority="high"
           />
           <BookInfoTable book={book} series={series} />
         </div>

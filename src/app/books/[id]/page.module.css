@@ -6,8 +6,11 @@
   color: var(--muted-colour);
 }
 
-.form {
+.actionBlock {
   float: right;
+}
+.actionBlock > * {
+  padding-bottom: 10px;
 }
 
 .wrapper {

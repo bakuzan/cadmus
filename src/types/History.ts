@@ -16,7 +16,7 @@ export interface HistoryDetailed {
   Author: string;
   SeriesName: string | null;
   BookCount: number;
-  RepeatShortlistId: number;
+  RepeatShortlistId: number | null;
 }
 
 export interface HistoryDetailedWithLibraryId extends HistoryDetailed {

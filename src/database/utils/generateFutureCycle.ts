@@ -13,7 +13,8 @@ function makePlaceholder(isReread: boolean, counter: number): ReadListHistory {
     Title: `[${title}]`,
     Author: '',
     SeriesName: null,
-    ReadNumber: isReread ? 1 : 0
+    ReadNumber: isReread ? 1 : 0,
+    RepeatShortlistId: null
   };
 }
 

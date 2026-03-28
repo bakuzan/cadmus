@@ -12,6 +12,9 @@ import AddRepeatShortlist from '@/components/AddRepeatShortlist';
 import { ReadListHistoryViewModel } from '@/types/ReadList';
 
 import styles from './ReadListList.module.css';
+import { reorder } from '@/utils/reorder';
+import onReorderRepeatShortlist from '@/actions/onReorderRepeatShortlist';
+import { extractReorderPayload } from '@/utils/extractReorderPayload';
 
 type OnDragEnd = NonNullable<
   React.ComponentProps<typeof DragDropProvider>['onDragEnd']
@@ -68,7 +71,7 @@ export default function ReadListList(props: ReadListListProps) {
   const [localItems, setLocalItems] = React.useState(props.items);
   const router = useRouter();
 
-  const maybeOnRemove = props.includeShortlistButton
+  const refreshPage = props.includeShortlistButton
     ? () => router.refresh()
     : undefined;
 
@@ -80,7 +83,7 @@ export default function ReadListList(props: ReadListListProps) {
           index={i}
           data={x}
           reorderable={reorderable}
-          onRemove={maybeOnRemove}
+          onRemove={refreshPage}
         />
       ))}
     </List>
@@ -99,12 +102,12 @@ export default function ReadListList(props: ReadListListProps) {
           const { initialIndex, index } = source;
 
           if (initialIndex !== index) {
-            setLocalItems((items) => {
-              const newItems = [...items];
-              const [removed] = newItems.splice(initialIndex, 1);
-              newItems.splice(index, 0, removed);
-              return newItems;
-            });
+            // Update local order
+            const newItems = reorder(localItems, initialIndex, index);
+            setLocalItems(newItems);
+            // Send update to server
+            const payload = extractReorderPayload(newItems);
+            onReorderRepeatShortlist(payload).catch(refreshPage);
           }
         }
       }}

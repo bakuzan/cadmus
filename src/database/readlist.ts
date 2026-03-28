@@ -77,3 +77,23 @@ export async function toggleBookInRepeatShortlist(bookId: string) {
   const result = db.prepare(sql).run(bookId);
   return result.changes === 1;
 }
+
+export async function reorderRepeatShortlist(
+  rows: Array<{ bookId: number; position: number }>
+) {
+  const update = db.prepare(`
+    UPDATE RepeatShortlist
+    SET Position = ?
+    WHERE BookId = ?
+  `);
+
+  const tx = db.transaction((rows) => {
+    for (const row of rows) {
+      update.run(row.position, row.bookId);
+    }
+  });
+
+  tx(rows);
+
+  return true;
+}

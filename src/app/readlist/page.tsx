@@ -37,7 +37,11 @@ export default async function ReadList() {
             <header>
               <h2>Repeat Shortlist</h2>
             </header>
-            <ReadListList items={readlist.shortlist} includeShortlistButton />
+            <ReadListList
+              items={readlist.shortlist}
+              includeShortlistButton
+              reorderable
+            />
           </section>
         </div>
       </div>

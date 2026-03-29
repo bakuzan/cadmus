@@ -16,5 +16,4 @@ LEFT JOIN History H ON H.BookId = B.Id
 LEFT JOIN BooksSeries BS ON B.Id = BS.BookId
 LEFT JOIN Series S ON BS.SeriesId = S.Id
 WHERE H.Id IS NULL
-ORDER BY B.Id ASC
-LIMIT :limit;
+ORDER BY B.Id ASC;

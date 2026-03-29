@@ -16,24 +16,22 @@ async function getRawRepeatShortlist() {
 
 export async function getReadList() {
   const settings = getSettings();
-  const REPEAT_CYCLE = settings.readList_RepeatFrequency;
+  const rereadEveryNthBook = settings.readList_RepeatFrequency;
 
   const queryGetHistory = getStoredProceedure('readlist_GetHistory');
   const oldRows = db
     .prepare(queryGetHistory)
-    .all({ limit: REPEAT_CYCLE }) as ReadListHistory[];
+    .all({ limit: rereadEveryNthBook }) as ReadListHistory[];
 
   const queryUnread = getStoredProceedure('readlist_GetUnreadHistory');
-  const unreadRows = db
-    .prepare(queryUnread)
-    .all({ limit: REPEAT_CYCLE }) as ReadListHistory[];
+  const unreadRows = db.prepare(queryUnread).all() as ReadListHistory[];
 
   const rawShortlist = await getRawRepeatShortlist();
 
-  const cyclePos = computeCyclePosition(oldRows, REPEAT_CYCLE);
+  const cyclePos = computeCyclePosition(oldRows, rereadEveryNthBook);
   const futureRows = generateFutureCycle(
     cyclePos,
-    REPEAT_CYCLE,
+    rereadEveryNthBook,
     unreadRows,
     rawShortlist
   );
@@ -43,7 +41,7 @@ export async function getReadList() {
   const unread = unreadRows.map(toViewModel);
   const shortlist = rawShortlist.map(toViewModel);
 
-  return { last, next, shortlist, unread };
+  return { last, next, shortlist, unread, rereadEveryNthBook };
 }
 
 /* DATEBASE WRITES */

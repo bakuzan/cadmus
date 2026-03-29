@@ -4,17 +4,21 @@ import { useRouter } from 'next/navigation';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable, isSortable } from '@dnd-kit/react/sortable';
 
+import onReorderRepeatShortlist from '@/actions/onReorderRepeatShortlist';
+
 import List from '@/components/List';
 import BookBlock from '@/components/BookBlock';
 import DateBlock from '@/components/DateBlock';
 import AddRepeatShortlist from '@/components/AddRepeatShortlist';
 
+import useToast from '@/hooks/useToast';
+
 import { ReadListHistoryViewModel } from '@/types/ReadList';
 
-import styles from './ReadListList.module.css';
 import { reorder } from '@/utils/reorder';
-import onReorderRepeatShortlist from '@/actions/onReorderRepeatShortlist';
 import { extractReorderPayload } from '@/utils/extractReorderPayload';
+
+import styles from './ReadListList.module.css';
 
 type OnDragEnd = NonNullable<
   React.ComponentProps<typeof DragDropProvider>['onDragEnd']
@@ -26,6 +30,7 @@ interface ReadListListProps {
   items: Array<ReadListHistoryViewModel>;
   includeShortlistButton?: boolean;
   reorderable?: boolean;
+  listLimit?: number;
 }
 
 interface ReadListListItemProps {
@@ -37,7 +42,7 @@ interface ReadListListItemProps {
 
 function ReadListListItem(props: ReadListListItemProps) {
   const { data: item, index, reorderable } = props;
-  const sortable = useSortable({ id: item.historyId, index });
+  const sortable = useSortable({ id: item.bookId, index });
 
   return (
     <li
@@ -67,25 +72,44 @@ function ReadListListItem(props: ReadListListItemProps) {
 }
 
 export default function ReadListList(props: ReadListListProps) {
-  const { reorderable = false } = props;
+  const { listLimit, reorderable = false } = props;
+
   const [localItems, setLocalItems] = React.useState(props.items);
+  const [showAll, setShowAll] = React.useState(
+    !listLimit || listLimit >= props.items.length
+  );
+
+  const toast = useToast();
   const router = useRouter();
 
   const refreshPage = props.includeShortlistButton
     ? () => router.refresh()
     : undefined;
 
+  const filteredItems = showAll ? localItems : localItems.slice(0, listLimit);
+
   const content = (
     <List>
-      {localItems.map((x, i) => (
+      {filteredItems.map((x, i) => (
         <ReadListListItem
-          key={x.historyId}
+          key={x.bookId}
           index={i}
           data={x}
           reorderable={reorderable}
           onRemove={refreshPage}
         />
       ))}
+      {!showAll && (
+        <li key="SHOWALL" className={`${styles.listItem} show-all`}>
+          <button
+            type="button"
+            className={styles.showAllBtn}
+            onClick={() => setShowAll(true)}
+          >
+            Show All
+          </button>
+        </li>
+      )}
     </List>
   );
 
@@ -107,7 +131,10 @@ export default function ReadListList(props: ReadListListProps) {
             setLocalItems(newItems);
             // Send update to server
             const payload = extractReorderPayload(newItems);
-            onReorderRepeatShortlist(payload).catch(refreshPage);
+            onReorderRepeatShortlist(payload).catch(() => {
+              toast('error', 'Failed to reorder Repeat Shortlist');
+              refreshPage?.();
+            });
           }
         }
       }}

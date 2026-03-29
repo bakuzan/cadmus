@@ -31,7 +31,11 @@ export default async function ReadList() {
             <header>
               <h2>Unread Books</h2>
             </header>
-            <ReadListList items={readlist.unread} />
+            <ReadListList
+              items={readlist.unread}
+              listLimit={readlist.rereadEveryNthBook}
+            />
+            <hr />
           </section>
           <section className={styles.bottom}>
             <header>

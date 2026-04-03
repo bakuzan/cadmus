@@ -45,19 +45,28 @@ export async function getReadList() {
 }
 
 /* DATEBASE WRITES */
-export async function removeBookIfInRepeatShortlist(bookId: string) {
-  const record = db
+export async function removeBookIfInShortlists(bookId: string) {
+  let result = { changes: 1 };
+
+  const repeatRecord = db
     .prepare('SELECT * FROM RepeatShortlist WHERE BookId = ?')
     .get(bookId);
 
-  if (!record) {
-    // No record, counts as removed!
-    return true;
+  const unreadRecord = db
+    .prepare('SELECT * FROM UnreadShortlist WHERE BookId = ?')
+    .get(bookId);
+
+  if (repeatRecord) {
+    result = db
+      .prepare('DELETE FROM RepeatShortlist WHERE BookId = ?')
+      .run(bookId);
   }
 
-  const result = db
-    .prepare('DELETE FROM RepeatShortlist WHERE BookId = ?')
-    .run(bookId);
+  if (unreadRecord) {
+    result = db
+      .prepare('DELETE FROM UnreadShortlist WHERE BookId = ?')
+      .run(bookId);
+  }
 
   return result.changes === 1;
 }
@@ -88,6 +97,26 @@ export async function reorderRepeatShortlist(
   const tx = db.transaction((rows) => {
     for (const row of rows) {
       update.run(row.position, row.bookId);
+    }
+  });
+
+  tx(rows);
+
+  return true;
+}
+
+export async function reorderUnreadShortlist(
+  rows: Array<{ bookId: number; position: number }>
+) {
+  const upsert = db.prepare(`
+    INSERT INTO UnreadShortlist (BookId, Position)
+    VALUES (?, ?)
+    ON CONFLICT(BookId) DO UPDATE SET Position = excluded.Position
+  `);
+
+  const tx = db.transaction((rows) => {
+    for (const row of rows) {
+      upsert.run(row.bookId, row.position);
     }
   });
 

@@ -28,7 +28,7 @@ SELECT
   L.Author,
   L.SeriesName,
   L.ReadNumber,
-  RS.Id AS RepeatShortlistId
+  RS.Id AS ShortlistId
 FROM RepeatShortlist RS
 JOIN Latest L ON L.BookId = RS.BookId AND L.RN = 1
 ORDER BY

@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation';
 import { DragDropProvider } from '@dnd-kit/react';
 import { useSortable, isSortable } from '@dnd-kit/react/sortable';
 
-import onReorderRepeatShortlist from '@/actions/onReorderRepeatShortlist';
-
 import List from '@/components/List';
 import BookBlock from '@/components/BookBlock';
 import DateBlock from '@/components/DateBlock';
@@ -14,6 +12,7 @@ import AddRepeatShortlist from '@/components/AddRepeatShortlist';
 import useToast from '@/hooks/useToast';
 
 import { ReadListHistoryViewModel } from '@/types/ReadList';
+import { ReorderPayload } from '@/types/Reorder';
 
 import { reorder } from '@/utils/reorder';
 import { extractReorderPayload } from '@/utils/extractReorderPayload';
@@ -29,8 +28,8 @@ type DragEndEvent = Parameters<OnDragEnd>[0];
 interface ReadListListProps {
   items: Array<ReadListHistoryViewModel>;
   includeShortlistButton?: boolean;
-  reorderable?: boolean;
   listLimit?: number;
+  reorderableAction?: (payload: ReorderPayload) => Promise<void>;
 }
 
 interface ReadListListItemProps {
@@ -62,7 +61,7 @@ function ReadListListItem(props: ReadListListItemProps) {
         <div className={styles.action}>
           <AddRepeatShortlist
             bookId={item.bookId}
-            bookInShortlist={!!item.repeatShortlistId}
+            bookInShortlist={!!item.shortlistId}
             onSuccess={props.onRemove}
           />
         </div>
@@ -72,7 +71,8 @@ function ReadListListItem(props: ReadListListItemProps) {
 }
 
 export default function ReadListList(props: ReadListListProps) {
-  const { listLimit, reorderable = false } = props;
+  const { listLimit, reorderableAction } = props;
+  const reorderable = !!reorderableAction;
 
   const [localItems, setLocalItems] = React.useState(props.items);
   const [showAll, setShowAll] = React.useState(
@@ -113,7 +113,7 @@ export default function ReadListList(props: ReadListListProps) {
     </List>
   );
 
-  return props.reorderable ? (
+  return reorderable ? (
     <DragDropProvider
       onDragEnd={(event: DragEndEvent) => {
         if (event.canceled) {
@@ -131,7 +131,7 @@ export default function ReadListList(props: ReadListListProps) {
             setLocalItems(newItems);
             // Send update to server
             const payload = extractReorderPayload(newItems);
-            onReorderRepeatShortlist(payload).catch(() => {
+            reorderableAction(payload).catch(() => {
               toast('error', 'Failed to reorder Repeat Shortlist');
               refreshPage?.();
             });

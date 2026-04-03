@@ -1,7 +1,7 @@
 import db from './db';
 import getStoredProceedure from './storedProceedures';
 
-import { removeBookIfInRepeatShortlist } from '@/database/readlist';
+import { removeBookIfInShortlists } from '@/database/readlist';
 import {
   toHistoryViewModel,
   toHistoryDetailedViewModel
@@ -41,7 +41,7 @@ export async function addReadHistory(bookId: string, startDate: string) {
   const added = result.changes === 1;
 
   if (added) {
-    await removeBookIfInRepeatShortlist(bookId);
+    await removeBookIfInShortlists(bookId);
   }
 
   return added;

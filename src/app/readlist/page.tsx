@@ -1,5 +1,8 @@
-import ReadListList from '@/components/ReadListList';
 import { getReadList } from '@/database/readlist';
+
+import onReorderRepeatShortlist from '@/actions/onReorderRepeatShortlist';
+import onReorderUnreadShortlist from '@/actions/onReorderUnreadShortlist';
+import ReadListList from '@/components/ReadListList';
 
 import getPageTitle from '@/utils/getPageTitle';
 
@@ -34,6 +37,7 @@ export default async function ReadList() {
             <ReadListList
               items={readlist.unread}
               listLimit={readlist.rereadEveryNthBook}
+              reorderableAction={onReorderUnreadShortlist}
             />
             <hr />
           </section>
@@ -44,7 +48,7 @@ export default async function ReadList() {
             <ReadListList
               items={readlist.shortlist}
               includeShortlistButton
-              reorderable
+              reorderableAction={onReorderRepeatShortlist}
             />
           </section>
         </div>

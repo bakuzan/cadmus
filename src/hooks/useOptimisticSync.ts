@@ -14,7 +14,7 @@ export function useOptimisticSync<T>(
     if (optimisticValue) {
       onCommit(optimisticValue);
     }
-  }, [optimisticValue]);
+  }, [optimisticValue, onCommit]);
 
   return [optimisticValue ?? serverValue, setOptimisticValue];
 }

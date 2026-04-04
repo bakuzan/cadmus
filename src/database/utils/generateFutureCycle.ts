@@ -14,7 +14,7 @@ function makePlaceholder(isReread: boolean, counter: number): ReadListHistory {
     Author: '',
     SeriesName: null,
     ReadNumber: isReread ? 1 : 0,
-    RepeatShortlistId: null
+    ShortlistId: null
   };
 }
 

@@ -18,6 +18,7 @@ import { reorder } from '@/utils/reorder';
 import { extractReorderPayload } from '@/utils/extractReorderPayload';
 
 import styles from './ReadListList.module.css';
+import { useOptimisticSync } from '@/hooks/useOptimisticSync';
 
 type OnDragEnd = NonNullable<
   React.ComponentProps<typeof DragDropProvider>['onDragEnd']
@@ -74,19 +75,25 @@ export default function ReadListList(props: ReadListListProps) {
   const { listLimit, reorderableAction } = props;
   const reorderable = !!reorderableAction;
 
-  const [localItems, setLocalItems] = React.useState(props.items);
+  const toast = useToast();
+  const router = useRouter();
+  const refreshPage = () => router.refresh();
+  const onRemove = props.includeShortlistButton ? refreshPage : undefined;
+
   const [showAll, setShowAll] = React.useState(
     !listLimit || listLimit >= props.items.length
   );
+  const [items, setOptimisticItems] = useOptimisticSync(
+    props.items,
+    (updated) => {
+      const payload = extractReorderPayload(updated);
+      reorderableAction!(payload)
+        .catch(() => toast('error', 'Failed to reorder Repeat Shortlist'))
+        .finally(() => refreshPage?.());
+    }
+  );
 
-  const toast = useToast();
-  const router = useRouter();
-
-  const refreshPage = props.includeShortlistButton
-    ? () => router.refresh()
-    : undefined;
-
-  const filteredItems = showAll ? localItems : localItems.slice(0, listLimit);
+  const filteredItems = showAll ? items : items.slice(0, listLimit);
 
   const content = (
     <List>
@@ -96,7 +103,7 @@ export default function ReadListList(props: ReadListListProps) {
           index={i}
           data={x}
           reorderable={reorderable}
-          onRemove={refreshPage}
+          onRemove={onRemove}
         />
       ))}
       {!showAll && (
@@ -116,25 +123,12 @@ export default function ReadListList(props: ReadListListProps) {
   return reorderable ? (
     <DragDropProvider
       onDragEnd={(event: DragEndEvent) => {
-        if (event.canceled) {
-          return;
-        }
-
-        const { source } = event.operation;
-
-        if (isSortable(source)) {
-          const { initialIndex, index } = source;
+        if (!event.canceled && isSortable(event.operation.source)) {
+          const { initialIndex, index } = event.operation.source;
 
           if (initialIndex !== index) {
-            // Update local order
-            const newItems = reorder(localItems, initialIndex, index);
-            setLocalItems(newItems);
-            // Send update to server
-            const payload = extractReorderPayload(newItems);
-            reorderableAction(payload).catch(() => {
-              toast('error', 'Failed to reorder Repeat Shortlist');
-              refreshPage?.();
-            });
+            const newItems = reorder(items, initialIndex, index);
+            setOptimisticItems(newItems);
           }
         }
       }}

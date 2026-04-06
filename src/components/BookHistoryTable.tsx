@@ -112,11 +112,13 @@ export default function BookHistoryTable(props: BookHistoryTableProps) {
                     <DateBlock startDate={x.startDate} endDate={x.endDate} />
                   </td>
                   <td className={styles.onlyShowOnHover}>
-                    <AddRepeatShortlist
-                      bookId={x.bookId}
-                      bookInShortlist={x.inRepeatShortlist}
-                      hideIfInShortlist={true}
-                    />
+                    {x.endDate && (
+                      <AddRepeatShortlist
+                        bookId={x.bookId}
+                        bookInShortlist={x.inRepeatShortlist}
+                        hideIfInShortlist={true}
+                      />
+                    )}
                   </td>
                 </tr>
               )}

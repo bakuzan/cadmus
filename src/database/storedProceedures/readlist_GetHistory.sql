@@ -29,7 +29,6 @@ Ongoing AS (
     SELECT *
       FROM Prep
      WHERE EndDate IS NULL
-     ORDER BY StartDate DESC     
 ),
 
 Completed AS (
@@ -40,6 +39,10 @@ Completed AS (
      LIMIT :limit
 )
 
-SELECT * FROM Ongoing
+SELECT * 
+  FROM Ongoing
 UNION ALL
-SELECT * FROM Completed;
+SELECT * 
+  FROM Completed
+ ORDER BY StartDate DESC
+        , EndDate DESC

@@ -1,5 +1,7 @@
 import getYearBounds from './getYearBounds';
 
+const DAY = 1000 * 60 * 60 * 24;
+
 export default function getOverlapDaysInYear(
   start: Date,
   end: Date,
@@ -15,5 +17,5 @@ export default function getOverlapDaysInYear(
     return 0;
   }
 
-  return Math.round(ms / (1000 * 60 * 60 * 24));
+  return Math.round(ms / DAY) + 1;
 }

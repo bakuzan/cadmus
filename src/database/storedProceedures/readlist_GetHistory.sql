@@ -38,11 +38,12 @@ Completed AS (
      ORDER BY StartDate DESC, EndDate DESC
      LIMIT :limit
 )
-
-SELECT * 
-  FROM Ongoing
-UNION ALL
-SELECT * 
-  FROM Completed
- ORDER BY StartDate DESC
-        , EndDate DESC
+SELECT *
+FROM (
+    SELECT * FROM Ongoing
+    UNION ALL
+    SELECT * FROM Completed
+)
+ORDER BY StartDate DESC
+       , CASE WHEN EndDate IS NULL THEN 0 ELSE 1 END
+       , EndDate DESC;

@@ -45,5 +45,4 @@ FROM (
     SELECT * FROM Completed
 )
 ORDER BY StartDate DESC
-       , CASE WHEN EndDate IS NULL THEN 0 ELSE 1 END
-       , EndDate DESC;
+       , HistoryId DESC;

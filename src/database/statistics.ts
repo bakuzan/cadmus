@@ -31,6 +31,15 @@ export async function getBookHistoryMonthCounts() {
 
     const ensure = (m: string) => (monthBooks[m] ??= []);
 
+    if (monthDurations.length === 0) {
+      const fallbackMonth = months[0];
+      if (fallbackMonth) {
+        ensure(fallbackMonth).push(row.HistoryId);
+      }
+
+      continue;
+    }
+
     if (bookCount === 1) {
       // Majority month gets the full count
       const maxDays = Math.max(...monthDurations.map((x) => x.days));

@@ -10,26 +10,26 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "better-sqlite3": "^11.7.0",
-    "next": "15.1.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "better-sqlite3": "^13.0.3",
+    "next": "15.1.12",
+    "react": "19.0.9",
+    "react-dom": "19.0.9"
   },
   "devDependencies": {
     "@dnd-kit/react": "^0.3.2",
-    "@types/better-sqlite3": "^7.6.12",
-    "@types/node": "^22.10.2",
-    "@types/react": "19.0.1",
-    "@types/react-dom": "19.0.2",
-    "eslint": "^9.17.0",
-    "eslint-config-next": "15.1.0",
-    "eslint-config-prettier": "^9.1.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.20.5",
+    "@types/react": "19.0.14",
+    "@types/react-dom": "19.0.6",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "15.1.12",
+    "eslint-config-prettier": "^9.1.2",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11",
-    "typescript": "^5.7.2"
+    "lint-staged": "^15.5.2",
+    "typescript": "^5.9.3"
   },
   "overrides": {
-    "@types/react": "19.0.1",
-    "@types/react-dom": "19.0.2"
+    "@types/react": "19.0.14",
+    "@types/react-dom": "19.0.6"
   }
 }
